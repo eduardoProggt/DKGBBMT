@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
 [ext_resource type="Texture2D" uid="uid://ceenpens5ys8f" path="res://textures/grass_texture.png" id="2_ew3ln"]
-[ext_resource type="PackedScene" uid="uid://ipumkkvvf2ef" path="res://assets/Bodenplatte.glb" id="3_iqpsf"]
+[ext_resource type="PackedScene" uid="uid://dk7pqxn5rcpps" path="res://assets/bodenplatte.tscn" id="3_a4ckj"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ft0it"]
 size = Vector3(200, 1, 200)
@@ -29,8 +29,9 @@ material = SubResource("StandardMaterial3D_mwknk")
 script = ExtResource("1_6wwel")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.732852, 0.680388, 0, -0.680388, 0.732852, 0, 7.51857, 27.3519)
+transform = Transform3D(1, 0, 0, 0, 0.742327, 0.670038, 0, -0.670038, 0.742327, 0, 47.6703, 83.5233)
 current = true
+fov = 89.4
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.761661, 0.646946, -0.0365003, -0.0636899, -0.0186884, 0.997795, 0.644838, 0.762306, 0.0554382, -0.816032, 65.5697, -159.964)
@@ -56,5 +57,4 @@ material_override = SubResource("StandardMaterial3D_4vkiw")
 mesh = SubResource("BoxMesh_18iu5")
 skeleton = NodePath("../..")
 
-[node name="Bodenplatte" parent="." instance=ExtResource("3_iqpsf")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+[node name="Neue_Bodenplatte" parent="." instance=ExtResource("3_a4ckj")]

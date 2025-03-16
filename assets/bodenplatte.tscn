@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dk7pqxn5rcpps"]
+
+[ext_resource type="ArrayMesh" uid="uid://cq5hw85ge0h45" path="res://objects/Bodenplatte.obj" id="1_m5yrr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o0ser"]
+size = Vector3(12.9, 0.2, 5.9)
+
+[node name="Neue_Bodenplatte" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.105, -3)
+shape = SubResource("BoxShape3D_o0ser")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_m5yrr")
