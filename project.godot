@@ -14,3 +14,7 @@ config/name="DKGBBMT_Godot"
 run/main_scene="res://main_scene.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Manager="*res://manager.gd"

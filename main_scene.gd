@@ -3,6 +3,7 @@ extends Node3D
 @onready var raycast = $FlatGround/RayCast3D
 @onready var tile_indicator = $Neue_Bodenplatte
 @onready var area = $Neue_Bodenplatte/Area3D 
+@onready var control_panel = $Control
 
 var kollisionen = 0 # oh boy muss ich refactoren
 
@@ -44,24 +45,27 @@ func _process(delta):
 	query.exclude = [tile_indicator.find_child("StaticBody3D")]
 	
 	var result = space_state.intersect_ray(query)
+	display_ghost(result)
 
-	if result:
-		var hit_position = result.position
-		var collider = result.collider
-		
-		var tile_x = floor(hit_position.x)
-		var tile_y = hit_position.y
-		var tile_z = floor(hit_position.z)
-
-		last_tile_position = Vector3(tile_x + 0.5, tile_y, tile_z + 0.5) + BODENPLATTE_MITTE
-		tile_indicator.transform.origin = last_tile_position
-		tile_indicator.visible = true
-	else:
+func display_ghost(result):
+	if !result:
 		tile_indicator.visible = false
+		return
+	var hit_position = result.position
+	var collider = result.collider
+	
+	var tile_x = floor(hit_position.x)
+	var tile_y = hit_position.y
+	var tile_z = floor(hit_position.z)
+
+	last_tile_position = Vector3(tile_x + 0.5, tile_y, tile_z + 0.5) + BODENPLATTE_MITTE
+	tile_indicator.transform.origin = last_tile_position
+	tile_indicator.visible = true
+		
 		
 func _input(event):
 	if event is InputEventMouseButton:
-		if event.button_index == 1 and event.is_pressed() && kollisionen == 0:
+		if event.button_index == 1 and event.is_pressed() && kollisionen == 0 && !is_mouse_over_menu():
 			var instance = load("res://assets/bodenplatte.tscn").instantiate()
 			instance.transform.origin = last_tile_position
 			add_child(instance)
@@ -87,3 +91,5 @@ func collides():
 		# Du kannst true zurückgeben, wenn benötigt
 	else:
 		print("Keine Kollision")
+func is_mouse_over_menu():
+	return control_panel.get_global_rect().has_point(control_panel.get_global_mouse_position())
