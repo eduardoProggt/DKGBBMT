@@ -1,0 +1,60 @@
+[gd_scene load_steps=11 format=3 uid="uid://c1u4bsknam34t"]
+
+[ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
+[ext_resource type="Texture2D" uid="uid://ceenpens5ys8f" path="res://textures/grass_texture.png" id="2_ew3ln"]
+[ext_resource type="PackedScene" uid="uid://ipumkkvvf2ef" path="res://assets/Bodenplatte.glb" id="3_iqpsf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ft0it"]
+size = Vector3(200, 1, 200)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bl615"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_b1ngu"]
+material = SubResource("StandardMaterial3D_bl615")
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x0fug"]
+load_path = "res://.godot/imported/grass_texture.png-0b0259e172a1201123b84882d4dd6b98.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4vkiw"]
+albedo_texture = SubResource("CompressedTexture2D_x0fug")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mwknk"]
+albedo_color = Color(0, 0.345098, 0, 1)
+albedo_texture = ExtResource("2_ew3ln")
+
+[sub_resource type="BoxMesh" id="BoxMesh_18iu5"]
+material = SubResource("StandardMaterial3D_mwknk")
+
+[node name="MainScene" type="Node3D"]
+script = ExtResource("1_6wwel")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.732852, 0.680388, 0, -0.680388, 0.732852, 0, 7.51857, 27.3519)
+current = true
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.761661, 0.646946, -0.0365003, -0.0636899, -0.0186884, 0.997795, 0.644838, 0.762306, 0.0554382, -0.816032, 65.5697, -159.964)
+
+[node name="FlatGround" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="GroundCollision" type="StaticBody3D" parent="FlatGround"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FlatGround/GroundCollision"]
+shape = SubResource("BoxShape3D_ft0it")
+
+[node name="TileIndicator" type="MeshInstance3D" parent="FlatGround"]
+mesh = SubResource("BoxMesh_b1ngu")
+skeleton = NodePath("../..")
+
+[node name="RayCast3D" type="RayCast3D" parent="FlatGround"]
+target_position = Vector3(0, 0, 0)
+
+[node name="GroundMesh" type="MeshInstance3D" parent="FlatGround"]
+transform = Transform3D(200, 0, 0, 0, 1, 0, 0, 0, 200, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_4vkiw")
+mesh = SubResource("BoxMesh_18iu5")
+skeleton = NodePath("../..")
+
+[node name="Bodenplatte" parent="." instance=ExtResource("3_iqpsf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
