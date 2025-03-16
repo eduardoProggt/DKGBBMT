@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://c1u4bsknam34t"]
+[gd_scene load_steps=12 format=3 uid="uid://c1u4bsknam34t"]
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
+[ext_resource type="Script" path="res://camera_3d.gd" id="2_83ax7"]
 [ext_resource type="Texture2D" uid="uid://ceenpens5ys8f" path="res://textures/grass_texture.png" id="2_ew3ln"]
 [ext_resource type="PackedScene" uid="uid://dk7pqxn5rcpps" path="res://assets/bodenplatte.tscn" id="3_a4ckj"]
 
@@ -29,9 +30,10 @@ material = SubResource("StandardMaterial3D_mwknk")
 script = ExtResource("1_6wwel")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.742327, 0.670038, 0, -0.670038, 0.742327, 0, 47.6703, 83.5233)
+transform = Transform3D(0.669662, -0.497614, 0.551301, 0, 0.742327, 0.670038, -0.742666, -0.448699, 0.497108, 74.6532, 47.6703, 83.5233)
 current = true
-fov = 89.4
+fov = 42.9
+script = ExtResource("2_83ax7")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.761661, 0.646946, -0.0365003, -0.0636899, -0.0186884, 0.997795, 0.644838, 0.762306, 0.0554382, -0.816032, 65.5697, -159.964)
