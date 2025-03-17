@@ -5,7 +5,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_o0ser"]
 size = Vector3(12.9, 0.2, 5.9)
 
-[node name="Neue_Bodenplatte" type="Node3D"]
+[node name="Bodenplatte" type="Node3D"]
 
 [node name="Area3D" type="Area3D" parent="."]
 

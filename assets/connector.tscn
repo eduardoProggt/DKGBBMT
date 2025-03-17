@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgwgmibke1nuy"]
+
+[ext_resource type="ArrayMesh" uid="uid://buc058uho3mnw" path="res://objects/Connector.obj" id="1_5akd5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_o0ser"]
+size = Vector3(0.9, 0.9, 0.9)
+
+[node name="Connector" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.447278, 0.515517, -0.537042)
+shape = SubResource("BoxShape3D_o0ser")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_5akd5")

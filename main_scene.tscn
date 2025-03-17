@@ -1,10 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://c1u4bsknam34t"]
+[gd_scene load_steps=14 format=3 uid="uid://c1u4bsknam34t"]
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_83ax7"]
 [ext_resource type="Texture2D" uid="uid://ceenpens5ys8f" path="res://textures/grass_texture.png" id="2_ew3ln"]
 [ext_resource type="PackedScene" uid="uid://dk7pqxn5rcpps" path="res://assets/bodenplatte.tscn" id="3_a4ckj"]
 [ext_resource type="Script" path="res://control.gd" id="5_1eqg5"]
+[ext_resource type="Script" path="res://manager.gd" id="6_gel6t"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ft0it"]
 size = Vector3(200, 1, 200)
@@ -29,6 +30,9 @@ material = SubResource("StandardMaterial3D_mwknk")
 
 [node name="MainScene" type="Node3D"]
 script = ExtResource("1_6wwel")
+
+[node name="Manager" type="Node" parent="."]
+script = ExtResource("6_gel6t")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.669662, -0.497614, 0.551301, 0, 0.742327, 0.670038, -0.742666, -0.448699, 0.497108, 74.6532, 47.6703, 83.5233)
@@ -102,3 +106,5 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Löschen
 "
+
+[node name="NewTileContainer" type="Node3D" parent="."]
