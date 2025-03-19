@@ -1,9 +1,8 @@
 extends Control
 
 var buttonToAsset = {
-	Button1 = "res://assets/bodenplatte.tscn",
-	Button2 = "res://assets/connector.tscn",
-	Button3 = "res://assets/bodenplatte.tscn",
+	Button1 = Manager.BODENPLATTE,
+	Button2 = Manager.CONNECTOR
 }
 func _ready():
 	Manager.register(self)
@@ -22,6 +21,9 @@ func get_all_buttons(node: Node) -> Array:
 	return result
 
 func _button_pressed(button):
+	if !button.name in buttonToAsset :
+		print(button.name + " nicht belegt")
+		return
 	var chosen_asset = buttonToAsset[button.name]
-	Manager.set_current_ghost_tile(load(chosen_asset))
-	print(button.text)
+	Manager.set_current_ghost_tile(chosen_asset)
+	print(chosen_asset.path)
