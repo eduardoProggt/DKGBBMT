@@ -27,7 +27,10 @@ func display(result):
 
 	tile_indicator.transform.origin = discretize_hit_position(result.position)
 	if tile_indicator.name == "Connector" && result.collider.get_parent().is_in_group("ConnectorRegions"):
-		tile_indicator.transform.origin = result.collider.global_transform.origin;
+		#Setze Connector in die BB des Colliders
+		var collision_shape = result.collider.find_child("CollisionShape3D")
+		tile_indicator.transform.origin = collision_shape.global_transform.origin + Vector3(-1,-1,1)/2; #Woher dieser Offset!?
+		
 	tile_indicator.visible = true
 	
 func discretize_hit_position(hit_position: Vector3) -> Vector3:
