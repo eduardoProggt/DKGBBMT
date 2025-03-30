@@ -4,6 +4,7 @@ var buttonToAsset = {
 	Button1 = Manager.BODENPLATTE,
 	Button2 = Manager.CONNECTOR
 }
+
 func _ready():
 	Manager.register(self)
 	var buttons = get_all_buttons(self)

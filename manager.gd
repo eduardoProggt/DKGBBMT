@@ -17,11 +17,6 @@ func set_current_ghost_tile(tile: Asset):
 	var main_scene = nodes["MainScene"]
 	main_scene.set_indicator(tile.instance)
 
-func _ready() -> void:
-	pass
-func _process(delta: float) -> void:
-	pass
-
 class Asset:
 	var path: String
 	var instance: Node3D

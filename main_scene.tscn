@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_83ax7"]
 [ext_resource type="Texture2D" uid="uid://ceenpens5ys8f" path="res://textures/grass_texture.png" id="2_ew3ln"]
-[ext_resource type="PackedScene" uid="uid://dk7pqxn5rcpps" path="res://assets/bodenplatte.tscn" id="3_a4ckj"]
+[ext_resource type="Script" path="res://ghost_preview.gd" id="2_jwfvs"]
 [ext_resource type="Script" path="res://control.gd" id="5_1eqg5"]
 [ext_resource type="Script" path="res://manager.gd" id="6_gel6t"]
 
@@ -26,6 +26,9 @@ material = SubResource("StandardMaterial3D_mwknk")
 [node name="MainScene" type="Node3D"]
 script = ExtResource("1_6wwel")
 
+[node name="GhostPreview" type="Node3D" parent="."]
+script = ExtResource("2_jwfvs")
+
 [node name="Manager" type="Node" parent="."]
 script = ExtResource("6_gel6t")
 
@@ -46,16 +49,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="FlatGround/GroundCollision"]
 shape = SubResource("BoxShape3D_ft0it")
 
-[node name="RayCast3D" type="RayCast3D" parent="FlatGround"]
-target_position = Vector3(0, 0, 0)
-
 [node name="GroundMesh" type="MeshInstance3D" parent="FlatGround"]
 transform = Transform3D(200, 0, 0, 0, 1, 0, 0, 0, 200, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_4vkiw")
 mesh = SubResource("BoxMesh_18iu5")
 skeleton = NodePath("../..")
-
-[node name="Neue_Bodenplatte" parent="." instance=ExtResource("3_a4ckj")]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
