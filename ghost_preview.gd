@@ -22,16 +22,23 @@ func set_color(instance, color):
 
 func display(result):
 	if !result:
+		#Intersected mit gar nichts	
 		tile_indicator.visible = false
 		return
 
 	tile_indicator.transform.origin = discretize_hit_position(result.position)
+	##TODO: diese Logik sollte am entsprechenden TileIndicator-objekt hängen
 	if tile_indicator.name == "Connector" && result.collider.get_parent().is_in_group("ConnectorRegions"):
+					
 		#Setze Connector in die BB des Colliders
-		var collision_shape = result.collider.find_child("CollisionShape3D")
+		var collision_shape = get_only_child(result.collider)
 		tile_indicator.transform.origin = collision_shape.global_transform.origin + Vector3(-1,-1,1)/2; #Woher dieser Offset!?
 		
 	tile_indicator.visible = true
+	
+func get_only_child(node: Node):
+	assert(node.get_child_count() == 1, "Fehler:"+node.get_name()+" hat nicht genau ein Kind!")
+	return node.get_child(0)
 	
 func discretize_hit_position(hit_position: Vector3) -> Vector3:
 	var vec = hit_position - get_tile_indicator_center()
