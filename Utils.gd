@@ -51,3 +51,15 @@ static func float_range(from: float, to: float, step: float) -> Array:
 static func get_only_child(node: Node):
 	assert(node.get_child_count() == 1, "Fehler:"+node.get_name()+" hat nicht genau ein Kind!")
 	return node.get_child(0)
+	
+static func set_color(instance, color: Color):
+	if instance == null:
+		return
+	var mesh_instance = instance.find_child("MeshInstance3D")
+	if(mesh_instance.material_override != null && mesh_instance.material_override.albedo_color == color):
+		return
+	var new_material = StandardMaterial3D.new()
+	if(color.a != 1):
+		new_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	new_material.albedo_color = color
+	mesh_instance.material_override = new_material	

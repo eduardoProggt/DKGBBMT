@@ -9,24 +9,14 @@ var ghost_tiles: Array
 var last_spawned: Node3D
 
 func _on_body_entered(_a):
-	set_color(tile_indicator, Color(1, 0, 0))
+	Utils.set_color(tile_indicator, Color(1, 0, 0))
 	collisions+=1
 	
 func _on_body_exited(_a):
 	collisions-=1
 	if collisions > 0:
 		return #es bleibt rot.
-	set_color(tile_indicator,Color(1, 1, 1))
-
-func set_color(instance, color: Color):
-	if instance == null:
-		return
-	var mesh_instance = instance.find_child("MeshInstance3D")
-	var new_material = StandardMaterial3D.new()
-	if(color.a != 1):
-		new_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	new_material.albedo_color = color
-	mesh_instance.material_override = new_material	
+	Utils.set_color(tile_indicator,Color(1, 1, 1))
 
 func display(result):
 	if !result:
@@ -46,9 +36,9 @@ func display(result):
 		var clostest = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
 		#DEBUG: diesen einfärben
 		for tile in ghost_tiles:
-			set_color(tile, Color(0, 0, 1, 0))
+			Utils.set_color(tile, Color(0, 0, 1, 0))
 		for valid_tile in get_all_preview_tiles():	
-			set_color(valid_tile, Color(0, 0, 1, 1))
+			Utils.set_color(valid_tile, Color(0, 0, 1, 1))
 		
 	tile_indicator.visible = true
 	
