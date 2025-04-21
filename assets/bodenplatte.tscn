@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dk7pqxn5rcpps"]
+[gd_scene load_steps=6 format=3 uid="uid://dk7pqxn5rcpps"]
 
 [ext_resource type="ArrayMesh" uid="uid://cq5hw85ge0h45" path="res://objects/Bodenplatte.obj" id="1_m5yrr"]
+[ext_resource type="Script" path="res://assets/bodenplatte.gd" id="1_thxdr"]
 [ext_resource type="Script" path="res://assets/connector_regions.gd" id="3_6d385"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o0ser"]
@@ -9,6 +10,7 @@ size = Vector3(12.9, 0.2, 5.9)
 [sub_resource type="BoxShape3D" id="BoxShape3D_imq1q"]
 
 [node name="Bodenplatte" type="Node3D"]
+script = ExtResource("1_thxdr")
 
 [node name="Area3D" type="Area3D" parent="."]
 
