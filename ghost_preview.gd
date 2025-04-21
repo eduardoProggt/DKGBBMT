@@ -1,6 +1,8 @@
 extends Node3D
 class_name GhostPreviewNode
 
+const Utils = preload("res://Utils.gd")
+
 var tile_indicator : Node3D
 var collisions = 0
 var ghost_tiles: Array
@@ -16,11 +18,13 @@ func _on_body_exited(_a):
 		return #es bleibt rot.
 	set_color(tile_indicator,Color(1, 1, 1))
 
-func set_color(instance, color):
+func set_color(instance, color: Color):
 	if instance == null:
 		return
 	var mesh_instance = instance.find_child("MeshInstance3D")
 	var new_material = StandardMaterial3D.new()
+	if(color.a != 1):
+		new_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
 	new_material.albedo_color = color
 	mesh_instance.material_override = new_material	
 
@@ -35,24 +39,20 @@ func display(result):
 	if tile_indicator.name == "Connector" && result.collider.get_parent().is_in_group("ConnectorRegions"):
 					
 		#Setze Connector in die BB des Colliders
-		var collision_shape = get_only_child(result.collider)
+		var collision_shape = Utils.get_only_child(result.collider)
 		tile_indicator.transform.origin = collision_shape.global_transform.origin + Vector3(-1,-1,1)/2; #Woher dieser Offset!?
 		
-		
-		
-		
 	if(!ghost_tiles.is_empty()):# Sinngleich mit MouseDown
-		var clostest = get_closest_node_to_mouse_ray(ghost_tiles)
+		var clostest = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
 		#DEBUG: diesen einfärben
 		for tile in ghost_tiles:
-			set_color(tile, Color(0, 0, 1))
-		set_color(clostest, Color(0, 1, 0))
+			set_color(tile, Color(0, 0, 1, 0))
+		for valid_tile in get_all_preview_tiles():	
+			set_color(valid_tile, Color(0, 0, 1, 1))
 		
 	tile_indicator.visible = true
 	
-func get_only_child(node: Node):
-	assert(node.get_child_count() == 1, "Fehler:"+node.get_name()+" hat nicht genau ein Kind!")
-	return node.get_child(0)
+
 	
 func discretize_hit_position(hit_position: Vector3) -> Vector3:
 	var vec = hit_position - get_tile_indicator_center()
@@ -84,68 +84,33 @@ func spawn(add_to_scene: Callable):
 func handle_button_up():
 	if(ghost_tiles.is_empty()): # Sinngleich mit MouseUp
 		return
+
+	for node_to_delete in ghost_tiles:
+		if not node_to_delete in get_all_preview_tiles():
+			node_to_delete.queue_free()
+	ghost_tiles = []
+func get_all_preview_tiles():
 	var first = last_spawned
-	var last = get_closest_node_to_mouse_ray(ghost_tiles)
+	var last = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
 	
 	var valid_positions: Array
 	
+	valid_positions.append(first)
 	if(last.transform.origin.z == first.transform.origin.z):
-		for i in float_range(last.transform.origin.x, first.transform.origin.x,1):
-			valid_positions.append(Vector3(i,last.transform.origin.y, first.transform.origin.z))
+		for i in Utils.float_range(last.transform.origin.x, first.transform.origin.x,1):
+			var position = Vector3(i,last.transform.origin.y, first.transform.origin.z)
+			valid_positions.append(find_tile_with_position(position))
 	if(last.transform.origin.x == first.transform.origin.x):
-		for i in float_range(last.transform.origin.z, first.transform.origin.z,1):
-			valid_positions.append(Vector3(last.transform.origin.x,last.transform.origin.y, i))
-	for node_to_delete in ghost_tiles:
-		var pos = node_to_delete.transform.origin
-		if not pos in valid_positions:
-			node_to_delete.queue_free()
-	ghost_tiles = []
-#Utils
-func float_range(from: float, to: float, step: float) -> Array:
-	var result := []
-	if step == 0:
-		push_error("Step must not be zero.")
-		return result
+		for i in Utils.float_range(last.transform.origin.z, first.transform.origin.z,1):
+			var position = Vector3(last.transform.origin.x,last.transform.origin.y, i)
+			valid_positions.append(find_tile_with_position(position))
+	return valid_positions
 	
-	var current = from
-	if from < to:
-		while current < to:
-			result.append(current)
-			current += abs(step)
-	else:
-		while current > to:
-			result.append(current)
-			current -= abs(step)
-	return result
-#get_closest_node_to_mouse_ray(nodes: Array[Node3D]) -> Node3D:
-func get_closest_node_to_mouse_ray(nodes):
-	var viewport := get_viewport()
-	var camera := viewport.get_camera_3d()
-	var mouse_pos := viewport.get_mouse_position()
-	var ray_origin := camera.project_ray_origin(mouse_pos)
-	var ray_dir := camera.project_ray_normal(mouse_pos)
-
-	var plane_y = last_spawned.transform.origin.y
-	var plane := Plane(Vector3.UP, plane_y)
-	var intersection = plane.intersects_ray(ray_origin, ray_dir)
-	if intersection == null:
-		return null
-	
-	var intersection_xz := Vector2(snapped(intersection.x, 1), snapped(intersection.z, 1))
-
-	var closest_node : Node3D = null
-	var min_distance := 99999999999
-
-	var distance
-	for node in nodes:
-		var node_pos_xz := Vector2(node.global_transform.origin.x, node.global_transform.origin.z)
-		distance = node_pos_xz.distance_to(intersection_xz)
-
-		if distance < min_distance:
-			min_distance = distance
-			closest_node = node
-	return closest_node
-
+func find_tile_with_position(pos: Vector3):
+	for tile in ghost_tiles:
+		if tile.transform.origin == pos:
+			return tile
+		
 	#Diese Komplette Logik hierdrin kommt irgendwann weg (Vllt an den Connector-Asset)
 func spawn_ghost_connectors(add_to_scene):
 	var origin = tile_indicator.transform.origin
