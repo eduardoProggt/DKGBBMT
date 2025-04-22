@@ -21,6 +21,7 @@ func display(result: Dictionary):
 	visible = true
 func spawn(add_to_scene: Callable):
 		last_spawned = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
+		ghost_tiles.append(last_spawned)
 		spawn_ghost_connectors(add_to_scene)
 		#TODO: Kollision
 		#Sollte einer kollidieren: Rotfärben
