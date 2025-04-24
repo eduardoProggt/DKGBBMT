@@ -61,5 +61,8 @@ static func set_color(instance, color: Color):
 	var new_material = StandardMaterial3D.new()
 	if(color.a != 1):
 		new_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		new_material.cull_mode = BaseMaterial3D.CULL_BACK
 	new_material.albedo_color = color
 	mesh_instance.material_override = new_material	
+	
+	
