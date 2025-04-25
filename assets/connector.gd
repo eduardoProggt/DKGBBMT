@@ -22,11 +22,7 @@ func display(result: Dictionary):
 		
 	visible = true
 	
-#DEBUG, Delete!
-var addToScene
-	
 func spawn(add_to_scene: Callable):
-		addToScene = add_to_scene
 		last_spawned = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
 		ghost_tiles.append(last_spawned)
 		spawn_ghost_connectors(add_to_scene)
@@ -61,9 +57,6 @@ func spawn_gost_wall_positions(node: Node3D):
 		node.global_transform.origin + Vector3(0.5,0.5,-5.5)
 	]
 	
-	
-	
-	
 	var space_state = get_world_3d().direct_space_state
 	
 	var query := PhysicsPointQueryParameters3D.new()
@@ -72,7 +65,7 @@ func spawn_gost_wall_positions(node: Node3D):
 	query.collide_with_bodies = true
 	query.collision_mask = 1 # optional
 	for point in relevant_points:
-		spawn_debug_sphere(point)
+		Utils.spawn_debug_sphere(get_tree(), point)
 		query.position = point
 	
 		var result = space_state.intersect_point(query,5)
@@ -80,7 +73,7 @@ func spawn_gost_wall_positions(node: Node3D):
 		for res in result:
 			var collided_node = res.collider.get_parent() 
 			if collided_node is Connector:
-				spawn_debug_sphere(point)
+				Utils.spawn_debug_sphere(get_tree(),point)
 				Utils.set_color(res.collider.get_parent(), Color(1,1,0))
 				Utils.set_color(node, Color(1,1,0))
 			
@@ -90,19 +83,7 @@ func spawn_gost_wall_positions(node: Node3D):
 #	box.mesh = BoxMesh.new()
 #	box.global_transform.origin = position
 #	add_child(box)
-###DEBUG, Löschen
-func spawn_debug_sphere(position: Vector3, radius := 0.1, color := Color.RED):
-	var sphere := MeshInstance3D.new()
-	var mesh := SphereMesh.new()
-	mesh.radius = radius
-	sphere.mesh = mesh
 
-	var material := StandardMaterial3D.new()
-	material.albedo_color = color
-	sphere.material_override = material
-
-	sphere.global_transform.origin = position
-	addToScene.call(sphere)
 
 func _get_all_preview_tiles():
 	var first = last_spawned

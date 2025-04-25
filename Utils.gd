@@ -65,4 +65,17 @@ static func set_color(instance, color: Color):
 	new_material.albedo_color = color
 	mesh_instance.material_override = new_material	
 	
+static func spawn_debug_sphere(tree: SceneTree,position: Vector3, radius := 0.1, color := Color.RED):
+	tree.current_scene
+	var sphere := MeshInstance3D.new()
+	var mesh := SphereMesh.new()
+	mesh.radius = radius
+	sphere.mesh = mesh
+
+	var material := StandardMaterial3D.new()
+	material.albedo_color = color
+	sphere.material_override = material
+
+	sphere.global_transform.origin = position
+	tree.current_scene.add_child(sphere)
 	
