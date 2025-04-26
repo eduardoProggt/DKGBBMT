@@ -65,7 +65,7 @@ func spawn_gost_wall_positions(node: Node3D):
 	query.collide_with_bodies = true
 	query.collision_mask = 1 # optional
 	for point in relevant_points:
-		Utils.spawn_debug_sphere(get_tree(), point)
+		
 		query.position = point
 	
 		var result = space_state.intersect_point(query,5)
@@ -73,16 +73,31 @@ func spawn_gost_wall_positions(node: Node3D):
 		for res in result:
 			var collided_node = res.collider.get_parent() 
 			if collided_node is Connector:
-				Utils.spawn_debug_sphere(get_tree(),point)
+				
 				Utils.set_color(res.collider.get_parent(), Color(1,1,0))
 				Utils.set_color(node, Color(1,1,0))
+				var box = create_box_between_points(node.global_position,res.collider.get_parent().global_position)
+				get_tree().current_scene.add_child(box)
 			
 		
-#	func spawn_box(position: Vector3):
-#	var box = MeshInstance3D.new()
-#	box.mesh = BoxMesh.new()
-#	box.global_transform.origin = position
-#	add_child(box)
+func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
+	var box = MeshInstance3D.new()
+	box.mesh = BoxMesh.new()
+	
+	var mesh : BoxMesh = box.mesh
+	mesh.size = Vector3(1, 6, start.distance_to(end)+1) # Breite 1, Höhe 6, Länge zwischen den Punkten
+	
+	#TODO: Ist das so rum schlau?
+	var center = (start + end) * 0.5
+	
+	box.global_transform.origin = center + Vector3(0.5,1+3,-0.5)#§: Offset Center, 1 eins über connector
+	
+	# Rotation: So ausrichten, dass die Box vom Start zum End zeigt
+	var direction = (end - start).normalized()
+	var angle = atan2(direction.x, direction.z)
+	box.rotation.y = angle
+	
+	return box
 
 
 func _get_all_preview_tiles():
