@@ -81,23 +81,45 @@ func spawn_gost_wall_positions(node: Node3D):
 			
 		
 func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
-	var box = MeshInstance3D.new()
-	box.mesh = BoxMesh.new()
-	
-	var mesh : BoxMesh = box.mesh
-	mesh.size = Vector3(1, 6, start.distance_to(end)+1) # Breite 1, Höhe 6, Länge zwischen den Punkten
-	
-	#TODO: Ist das so rum schlau?
+	var body = StaticBody3D.new()
+
+	# Dann MeshInstance3D erstellen (für das sichtbare Mesh)
+	var mesh = MeshInstance3D.new()
+
+	var mat = StandardMaterial3D.new()
+	mat.albedo_color = Color(1,1,1)
+
+	mesh.material_override = mat
+	mesh.mesh = BoxMesh.new()
+	mesh.mesh.size = Vector3(1, 6, start.distance_to(end) + 1)
+	mesh.name = "MeshInstance3D"
+	mesh.owner = get_tree().current_scene 
+
+	# Mesh positionieren
 	var center = (start + end) * 0.5
-	
-	box.global_transform.origin = center + Vector3(0.5,1+3,-0.5)#§: Offset Center, 1 eins über connector
-	
-	# Rotation: So ausrichten, dass die Box vom Start zum End zeigt
+	body.global_transform.origin = center + Vector3(0.5, 1 + 3, -0.5)
+
+	# Mesh rotieren
 	var direction = (end - start).normalized()
 	var angle = atan2(direction.x, direction.z)
-	box.rotation.y = angle
+	mesh.rotation.y = angle
+
+	# Dann CollisionShape3D erstellen
+	var collision_shape = CollisionShape3D.new()
+	var shape = BoxShape3D.new()
+	shape.size = mesh.mesh.size  # Größe übernehmen
+
+	collision_shape.shape = shape
+
+	body.add_child(mesh)
+	body.add_child(collision_shape)
+
+	body.add_to_group("WallCollider")
 	
-	return box
+	body.collision_layer = 1
+	body.collision_mask = 1
+	return body
+
 
 
 func _get_all_preview_tiles():
