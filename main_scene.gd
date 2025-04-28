@@ -14,12 +14,6 @@ func _process(_delta):
 	#TODO Brauchen wir das?
 	#query.exclude = [tile_indicator.find_child("StaticBody3D")]
 	var result = space_state.intersect_ray(query)
-	
-	if result.collider != null && result.collider.is_in_group("WallCollider"):
-		#var collider = result.collider
-		#var mesh = result.collider.find_child("BoxMesh",true, false)
-		#mesh.material_override.albedo_color = Color(1,0,0)
-		Utils.set_color(result.collider, Color(1,0,0))
 		
 	get_ghost_preview_node().display(result)
 

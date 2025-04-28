@@ -2,7 +2,8 @@ extends Control
 
 var buttonToAsset = {
 	Button1 = Manager.BODENPLATTE,
-	Button2 = Manager.CONNECTOR
+	Button2 = Manager.CONNECTOR,
+	Button3 = Manager.WAND
 }
 
 func _ready():

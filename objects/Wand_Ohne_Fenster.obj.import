@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c73a4tyfwp2ba"
+path="res://.godot/imported/Wand_Ohne_Fenster.obj-8506004a309bf797146f4ab27c5026fa.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Wand_Ohne_Fenster.obj-8506004a309bf797146f4ab27c5026fa.mesh"]
+
+source_file="res://objects/Wand_Ohne_Fenster.obj"
+dest_files=["res://.godot/imported/Wand_Ohne_Fenster.obj-8506004a309bf797146f4ab27c5026fa.mesh", "res://.godot/imported/Wand_Ohne_Fenster.obj-8506004a309bf797146f4ab27c5026fa.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -87,13 +87,14 @@ func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 	var mesh = MeshInstance3D.new()
 
 	var mat = StandardMaterial3D.new()
-	mat.albedo_color = Color(1,1,1)
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.albedo_color = Color(1,1,1, 0.3)
 
 	mesh.material_override = mat
 	mesh.mesh = BoxMesh.new()
 	mesh.mesh.size = Vector3(1, 6, start.distance_to(end) + 1)
 	mesh.name = "MeshInstance3D"
-	mesh.owner = get_tree().current_scene 
+	body.owner = get_tree().current_scene 
 
 	# Mesh positionieren
 	var center = (start + end) * 0.5
@@ -101,8 +102,8 @@ func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 
 	# Mesh rotieren
 	var direction = (end - start).normalized()
-	var angle = atan2(direction.x, direction.z)
-	mesh.rotation.y = angle
+	var angle = atan2(abs(direction.x), abs(direction.z))
+	body.rotation.y = angle
 
 	# Dann CollisionShape3D erstellen
 	var collision_shape = CollisionShape3D.new()
