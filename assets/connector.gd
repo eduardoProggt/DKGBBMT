@@ -4,6 +4,7 @@ class_name Connector
 
 var ghost_tiles : Array
 var last_spawned : Node3D
+var occupied : bool
 
 func display(result: Dictionary):
 	if result.collider.get_parent().is_in_group("ConnectorRegions"):
@@ -72,10 +73,14 @@ func spawn_gost_wall_positions(node: Node3D):
 		#result gibt mir die Area3D, daher brauch ich den Parent
 		for res in result:
 			var collided_node = res.collider.get_parent() 
-			if collided_node is Connector:
-				
-				Utils.set_color(res.collider.get_parent(), Color(1,1,0))
+			if collided_node is Connector && !collided_node.occupied:
+				#TODO: Das ist nur vorläufig. Führt zu Problemen, da Connectoren ja 2x besetzt sein können, bspw bei orthogonalen wänden
+				#Besser: "Partner"-Connector speichern, sodass von diesem aus keine 2. identische wand gezogen werden kann
+				Utils.set_color(collided_node, Color(1,1,0))
 				Utils.set_color(node, Color(1,1,0))
+				collided_node.occupied = true
+				node.occupied = true
+				
 				var box = create_box_between_points(node.global_position,res.collider.get_parent().global_position)
 				get_tree().current_scene.add_child(box)
 			

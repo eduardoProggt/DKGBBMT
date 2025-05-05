@@ -21,10 +21,7 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == 1 and event.is_pressed() && get_ghost_preview_node().can_spawn() && !Manager.is_mouse_over_menu():
 			get_ghost_preview_node().spawn(add_child)
-	#NEW:
-#	if event is InputEventMouseButton:
-#		if event.button_index == 1 and event.is_pressed() !Manager.is_mouse_over_menu():
-#			get_ghost_preview_node().handle_button_down()
+
 		if event.button_index == 1 and event.is_released():
 			get_ghost_preview_node().handle_button_up()
 
