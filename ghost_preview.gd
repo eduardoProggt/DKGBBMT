@@ -14,6 +14,8 @@ func _on_body_exited(_a):
 	collisions-=1
 	if collisions > 0:
 		return #es bleibt rot.
+	if collisions < 0:
+		collisions = 0
 	Utils.set_color(tile_indicator,Color(1, 1, 1))
 
 func display(result):
@@ -54,6 +56,7 @@ func switch_indicator(indicator: Node3D):
 	if area:
 		area.area_entered.connect(_on_body_entered)
 		area.area_exited.connect(_on_body_exited)
+	collisions = 0
 		
 ## Workaround für ein Placable-Interface an den Asset - Objekten
 func ensure_is_a_placable(node: Node3D):
