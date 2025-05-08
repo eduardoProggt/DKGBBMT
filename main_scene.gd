@@ -24,6 +24,10 @@ func _input(event):
 
 		if event.button_index == 1 and event.is_released():
 			get_ghost_preview_node().handle_button_up()
+			
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_SPACE:
+			get_ghost_preview_node().rotate_90_degrees()
 
 func set_indicator(indicator: Node3D):
 	get_ghost_preview_node().switch_indicator(indicator)

@@ -32,14 +32,18 @@ func discretize_hit_position(hit_position: Vector3) -> Vector3:
 	return Vector3(floor(vec.x) + 0.5,vec.y,floor(vec.z) + 0.5)
 	
 func get_tile_indicator_center() -> Vector3:
-	var shape = tile_indicator.find_child("CollisionShape3D")
-	return shape.transform.origin
+	var shape : CollisionShape3D
+	shape = tile_indicator.find_child("CollisionShape3D")
+	return Basis.from_euler(tile_indicator.global_rotation) * shape.transform.origin
 	
 func spawn(add_to_scene: Callable):
 	tile_indicator.spawn(add_to_scene)
 
 func handle_button_up():
 	tile_indicator.finish_spawning()
+	
+func rotate_90_degrees():
+	tile_indicator.rotate_y(PI / 2)
 		
 func switch_indicator(indicator: Node3D):
 	ensure_is_a_placable(indicator)
