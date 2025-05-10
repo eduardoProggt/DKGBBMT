@@ -78,4 +78,5 @@ static func spawn_debug_sphere(tree: SceneTree,position: Vector3, radius := 0.1,
 
 	sphere.global_transform.origin = position
 	tree.current_scene.add_child(sphere)
+	return sphere
 	
