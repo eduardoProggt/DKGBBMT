@@ -23,7 +23,8 @@ func display(result):
 		#Intersected mit gar nichts	
 		tile_indicator.visible = false
 		return
-	
+	#TODO: Eine Menge an Objects definieren, mit denen ein Objekt nicht collidiert.
+	#Beispiel: Eine Wand mit Connector-Regions
 	tile_indicator.transform.origin = discretize_hit_position(result.position)	
 	tile_indicator.display(result)	
 	
@@ -34,6 +35,8 @@ func discretize_hit_position(hit_position: Vector3) -> Vector3:
 func get_tile_indicator_center() -> Vector3:
 	var shape : CollisionShape3D
 	shape = tile_indicator.find_child("CollisionShape3D")
+	if shape == null:
+		return Vector3(0,0,0)
 	return Basis.from_euler(tile_indicator.global_rotation) * shape.transform.origin
 	
 func spawn(add_to_scene: Callable):

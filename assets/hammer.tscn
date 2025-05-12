@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bh03gfthxusjj"]
+
+[ext_resource type="ArrayMesh" uid="uid://cn4u7l2l7g575" path="res://objects/hammer.obj" id="1_4bbtm"]
+[ext_resource type="Script" path="res://assets/hammer.gd" id="1_x3vt8"]
+
+[node name="Hammer" type="Node3D"]
+script = ExtResource("1_x3vt8")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_4bbtm")
