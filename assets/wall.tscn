@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bkkxluemb0hhe"]
 
-[ext_resource type="ArrayMesh" uid="uid://c73a4tyfwp2ba" path="res://objects/Wand_Ohne_Fenster.obj" id="1_b5knq"]
+[ext_resource type="ArrayMesh" uid="uid://iow6i081nk8k" path="res://objects/Wand_Ohne_Fenster.obj" id="1_b5knq"]
 [ext_resource type="Script" path="res://assets/wall.gd" id="1_wfms0"]
 [ext_resource type="Script" path="res://assets/connector_regions.gd" id="3_reapv"]
 
