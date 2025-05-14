@@ -1,7 +1,5 @@
 extends Node3D
 
-
-
 func _ready():
 	Manager.register(self)
 	set_indicator(Manager.BODENPLATTE.instance)
@@ -27,15 +25,8 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == 1:
 				
-			if event.is_pressed() && get_ghost_preview_node().can_spawn() && !Manager.is_mouse_over_menu():
-				#Sonderfall: Buttondown bei löschen
-				if _is_delete_mode():
-					var collide_area = _compute_mouse_intersection().collider
-					if collide_area is Area3D:
-						collide_area.get_parent().queue_free()
-
-				else:
-					get_ghost_preview_node().spawn(add_child)
+			if event.is_pressed():
+				handle_left_click()
 
 			if event.is_released():
 				get_ghost_preview_node().handle_button_up()
@@ -43,7 +34,17 @@ func _input(event):
 	if event is InputEventKey:
 		if event.pressed and event.keycode == KEY_SPACE:
 			get_ghost_preview_node().rotate_90_degrees()
-
+			
+func handle_left_click():
+	if get_ghost_preview_node().can_spawn() && !Manager.is_mouse_over_menu():
+		#Sonderfall: Buttondown bei löschen
+		if _is_delete_mode():
+			var collide_area = _compute_mouse_intersection().collider
+			if collide_area is Area3D:
+				collide_area.get_parent().queue_free()
+		else:
+			get_ghost_preview_node().spawn(add_child)
+			
 func set_indicator(indicator: Node3D):
 	get_ghost_preview_node().switch_indicator(indicator)
 
