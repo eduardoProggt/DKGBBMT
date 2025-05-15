@@ -56,7 +56,7 @@ static func set_color(instance, color: Color):
 	if instance == null:
 		return
 	var mesh_instance = instance.find_child("MeshInstance3D", true, false)
-	if(mesh_instance.material_override != null && mesh_instance.material_override.albedo_color == color):
+	if mesh_instance.material_override != null && mesh_instance.material_override.albedo_color == color:
 		return
 	var new_material = StandardMaterial3D.new()
 	if(color.a != 1):

@@ -15,9 +15,7 @@ func display(result: Dictionary):
 		
 	if(!ghost_tiles.is_empty()):# Sinngleich mit MouseDown
 		var clostest = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
-		#DEBUG: diesen einfärben
-		for tile in ghost_tiles:
-			Utils.set_color(tile, Color(0, 0, 1, 0))
+		
 		for valid_tile in _get_all_preview_tiles():	
 			Utils.set_color(valid_tile, Color(0, 0, 1, 0.8))
 		
@@ -82,19 +80,6 @@ func spawn_gost_wall_positions(node: Node3D):
 func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 	var body = StaticBody3D.new()
 
-	# Dann MeshInstance3D erstellen (für das sichtbare Mesh)
-	var mesh = MeshInstance3D.new()
-
-	var mat = StandardMaterial3D.new()
-	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.albedo_color = Color(1,1,1, 0.3)
-
-	mesh.material_override = mat
-	mesh.mesh = BoxMesh.new()
-	mesh.mesh.size = Vector3(1, 6, start.distance_to(end) + 1)
-	mesh.name = "MeshInstance3D"
-	body.owner = get_tree().current_scene 
-
 	# Mesh positionieren
 	var center = (start + end) * 0.5
 	body.global_transform.origin = center + Vector3(0.5, 1 + 3, -0.5)
@@ -103,8 +88,8 @@ func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 	var direction = (end - start).normalized()
 	var angle = atan2(abs(direction.x), abs(direction.z))
 	body.rotation.y = angle
-
-	# Dann CollisionShape3D erstellen
+	
+	var mesh = create_debug_box_mesh(start, end)
 	var collision_shape = CollisionShape3D.new()
 	var shape = BoxShape3D.new()
 	shape.size = mesh.mesh.size  # Größe übernehmen
@@ -116,12 +101,22 @@ func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 
 	body.add_to_group("WallCollider")
 	
-	body.collision_layer = 1
-	body.collision_mask = 1
 	return body
+	
+	
+func create_debug_box_mesh(start, end):
+	var mesh = MeshInstance3D.new()
 
+	var mat = StandardMaterial3D.new()
+	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	mat.albedo_color = Color(1,1,1, 0.3)
 
-
+	mesh.material_override = mat
+	mesh.mesh = BoxMesh.new()
+	mesh.mesh.size = Vector3(1, 6, start.distance_to(end) + 1)
+	mesh.name = "MeshInstance3D"
+	return mesh
+	
 func _get_all_preview_tiles():
 	var first = last_spawned
 	var last = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
@@ -152,11 +147,13 @@ func spawn_ghost_connectors(add_to_scene):
 			continue
 		var new_tile_x = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
 		new_tile_x.transform.origin = transform.origin + Vector3(i,0,0)
+		Utils.set_color(new_tile_x, Color(0, 0, 1, 0))# unsichtbar machen
 		add_to_scene.call(new_tile_x)
 		ghost_tiles.append(new_tile_x)
 		
 		var new_tile_z = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
 		new_tile_z.transform.origin = transform.origin + Vector3(0,0,i)
+		Utils.set_color(new_tile_z, Color(0, 0, 1, 0))# unsichtbar machen
 		add_to_scene.call(new_tile_z)
 		ghost_tiles.append(new_tile_z)
 	return ghost_tiles
