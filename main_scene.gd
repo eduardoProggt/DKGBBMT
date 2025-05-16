@@ -2,6 +2,9 @@ extends Node3D
 
 func _ready():
 	Manager.register(self)
+	# Verlegenheitsmethode... Ich will dass von Anfang an von jedem Placable Asset eine Instanz da ist
+	# TODO: geschmeidigere Lösung überlegen
+	Manager.add_assets(add_child);
 	set_indicator(Manager.BODENPLATTE.instance)
 	
 func _process(_delta):

@@ -61,14 +61,14 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -192.0
-offset_bottom = 163.0
+offset_bottom = 211.0
 grow_horizontal = 0
 script = ExtResource("5_1eqg5")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 0
 offset_right = 190.0
-offset_bottom = 163.0
+offset_bottom = 212.0
 
 [node name="Panel" type="Panel" parent="Control/MarginContainer"]
 layout_mode = 2

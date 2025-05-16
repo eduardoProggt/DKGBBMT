@@ -4,7 +4,6 @@ class_name Connector
 
 var ghost_tiles : Array
 var last_spawned : Node3D
-var occupied : bool
 
 func display(result: Dictionary):
 	if result.collider.get_parent().is_in_group("ConnectorRegions"):
@@ -16,6 +15,9 @@ func display(result: Dictionary):
 	if(!ghost_tiles.is_empty()):# Sinngleich mit MouseDown
 		var clostest = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
 		
+		for tile in ghost_tiles:
+			Utils.set_color(tile, Color(0, 0, 1, 0))
+
 		for valid_tile in _get_all_preview_tiles():	
 			Utils.set_color(valid_tile, Color(0, 0, 1, 0.8))
 		
@@ -44,78 +46,14 @@ func finish_spawning():
 func _post_instantiation():
 	for node in _get_all_preview_tiles():
 		Utils.set_color(node, Color(0, 0, 1, 1))
-		spawn_gost_wall_positions(node)
+		#TODO: Langfristig über alle Sachen loopen, die auf Connectoren gesetzt werden können
+		var wall = Manager.WAND.instance
+		wall.spawn_gost(node)
 	ghost_tiles = []
-	
-func spawn_gost_wall_positions(node: Node3D):
-	
-	var relevant_points = [
-		node.global_transform.origin + Vector3(5.5,0.5,-0.5), 
-		node.global_transform.origin + Vector3(-4.5,0.5,-0.5),
-		node.global_transform.origin + Vector3(0.5,0.5,4.5), 
-		node.global_transform.origin + Vector3(0.5,0.5,-5.5)
-	]
-	
-	var space_state = get_world_3d().direct_space_state
-	
-	var query := PhysicsPointQueryParameters3D.new()
-	
-	query.collide_with_areas = true
-	query.collide_with_bodies = true
-	query.collision_mask = 1 # optional
-	for point in relevant_points:
-		
-		query.position = point
-	
-		var result = space_state.intersect_point(query,5)
-		#result gibt mir die Area3D, daher brauch ich den Parent
-		for res in result:
-			var collided_node = res.collider.get_parent() 
-			if collided_node is Connector: #&& !collided_node.occupied:
-				#node.occupied = true
-				var box = create_box_between_points(node.global_position,res.collider.get_parent().global_position)
-				get_tree().current_scene.add_child(box)
-			
-		
-func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
-	var body = StaticBody3D.new()
 
-	# Mesh positionieren
-	var center = (start + end) * 0.5
-	body.global_transform.origin = center + Vector3(0.5, 1 + 3, -0.5)
+func get_center() -> Vector3:
+	return global_transform.origin + Vector3(+0.5,0.5,-0.5)
 
-	# Mesh rotieren
-	var direction = (end - start).normalized()
-	var angle = atan2(abs(direction.x), abs(direction.z))
-	body.rotation.y = angle
-	
-	var mesh = create_debug_box_mesh(start, end)
-	var collision_shape = CollisionShape3D.new()
-	var shape = BoxShape3D.new()
-	shape.size = mesh.mesh.size  # Größe übernehmen
-
-	collision_shape.shape = shape
-
-	body.add_child(mesh)
-	body.add_child(collision_shape)
-
-	body.add_to_group("WallCollider")
-	
-	return body
-	
-	
-func create_debug_box_mesh(start, end):
-	var mesh = MeshInstance3D.new()
-
-	var mat = StandardMaterial3D.new()
-	mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	mat.albedo_color = Color(1,1,1, 0.3)
-
-	mesh.material_override = mat
-	mesh.mesh = BoxMesh.new()
-	mesh.mesh.size = Vector3(1, 6, start.distance_to(end) + 1)
-	mesh.name = "MeshInstance3D"
-	return mesh
 	
 func _get_all_preview_tiles():
 	var first = last_spawned
@@ -147,13 +85,11 @@ func spawn_ghost_connectors(add_to_scene):
 			continue
 		var new_tile_x = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
 		new_tile_x.transform.origin = transform.origin + Vector3(i,0,0)
-		Utils.set_color(new_tile_x, Color(0, 0, 1, 0))# unsichtbar machen
 		add_to_scene.call(new_tile_x)
 		ghost_tiles.append(new_tile_x)
 		
 		var new_tile_z = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
 		new_tile_z.transform.origin = transform.origin + Vector3(0,0,i)
-		Utils.set_color(new_tile_z, Color(0, 0, 1, 0))# unsichtbar machen
 		add_to_scene.call(new_tile_z)
 		ghost_tiles.append(new_tile_z)
 	return ghost_tiles
