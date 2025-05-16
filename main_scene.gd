@@ -41,10 +41,17 @@ func handle_left_click():
 		if _is_delete_mode():
 			var collide_area = _compute_mouse_intersection().collider
 			if collide_area is Area3D:
-				collide_area.get_parent().queue_free()
+				var instance = collide_area.get_parent()
+				if instance.is_in_group("placed"):
+					instance.queue_free()
 		else:
-			get_ghost_preview_node().spawn(add_child)
-			
+			get_ghost_preview_node().spawn(place_object)
+
+func place_object(object : Node3D):
+	#Todo: Alle Groups als final Strings an den Manager
+	object.add_to_group("placed")
+	add_child(object)
+
 func set_indicator(indicator: Node3D):
 	get_ghost_preview_node().switch_indicator(indicator)
 
