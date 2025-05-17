@@ -10,7 +10,7 @@ enum States {NULL, GHOST, PREVIEW, PLACED}
 var state : States
 
 func display(result: Dictionary):
-	if result.collider.get_parent().is_in_group("ConnectorRegions"):
+	if result.collider.is_in_group("ConnectorGhost"):
 					
 		#Setze Connector in die BB des Colliders
 		var collision_shape = Utils.get_only_child(result.collider)

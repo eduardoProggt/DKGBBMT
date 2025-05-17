@@ -1,5 +1,7 @@
 extends Node3D
 
+class_name Wall
+
 var collision_sphere : CollisionShape3D
 
 func _ready():
@@ -17,7 +19,7 @@ func display(result: Dictionary):
 	var colliding_objects : Array = _get_intersecting_wall_ghosts(collision_point)
 	
 	var closest = _find_closest(collision_point, colliding_objects)
-	if closest != null && closest.is_in_group("WallCollider"):
+	if closest != null && closest.is_in_group("WallGhost"):
 		for child in closest.get_children():
 			if child is CollisionShape3D:
 				_snap_to_ghost(child)
@@ -49,8 +51,8 @@ func _snap_to_ghost(collision_shape : CollisionShape3D):
 		transform.origin = collision_shape.global_transform.origin + Vector3(3,-3,0.5);
 		rotation.y = 0
 	else:
-		transform.origin = collision_shape.global_transform.origin + Vector3(0.5,-3,-3);
-		rotation.y = PI / 2
+		transform.origin = collision_shape.global_transform.origin + Vector3(-0.5,-3,3);
+		rotation.y = PI / 2 + PI
 
 
 func spawn(add_to_scene: Callable):
@@ -114,9 +116,10 @@ func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 	shape.size = Vector3(1, 6, start.distance_to(end) + 1)
 
 	collision_shape.shape = shape
+	collision_shape.disabled = true # Wird erst enabled, wenn Wall angewählt wird
 
 	body.add_child(collision_shape)
-	body.add_to_group("WallCollider")
+	body.add_to_group("WallGhost")
 	
 	return body
 
@@ -128,5 +131,5 @@ func _foreach_collidiong_wall_ghosts(node : CollisionShape3D, process : Callable
 	var results = space_state.intersect_shape(query, 32)
 	for res in results:
 		var obj: Node = res.collider
-		if obj.is_in_group("WallCollider"): 
+		if obj.is_in_group("WallGhost"): 
 			process.call(obj)

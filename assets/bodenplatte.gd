@@ -1,5 +1,7 @@
 extends Node3D
 
+class_name Bodenplatte
+
 func display(result: Dictionary):
 	visible = true
 	

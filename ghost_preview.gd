@@ -50,6 +50,7 @@ func rotate_90_degrees():
 		
 func switch_indicator(indicator: Node3D):
 	ensure_is_a_placable(indicator)
+	enable_disable_hitboxes(indicator)
 	if tile_indicator:  # Falls vorher ein Indicator existierte, altes Signal trennen
 		var old_area = tile_indicator.find_child("Area3D")
 		if old_area:
@@ -64,7 +65,25 @@ func switch_indicator(indicator: Node3D):
 		area.area_entered.connect(_on_body_entered)
 		area.area_exited.connect(_on_body_exited)
 	collisions = 0
-		
+
+func enable_disable_hitboxes(node : Node3D):
+	if node is Bodenplatte:
+		set_group_collision("WallGhost", false)
+		set_group_collision("ConnectorGhost", false)
+	if node is Connector:
+		set_group_collision("WallGhost", false)
+		set_group_collision("ConnectorGhost", true)
+	elif node is Wall:
+		set_group_collision("WallGhost", true)
+		set_group_collision("ConnectorGhost", false)
+
+func set_group_collision(group_name: String, enabled: bool):
+	var nodes_in_group = get_tree().get_nodes_in_group(group_name)
+	for obj in nodes_in_group:
+		if obj is StaticBody3D:
+			for child in obj.get_children():
+				child.disabled = !enabled
+
 ## Workaround für ein Placable-Interface an den Asset - Objekten
 func ensure_is_a_placable(node: Node3D):
 	var required = ["spawn", "display", "finish_spawning"]
