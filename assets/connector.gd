@@ -5,6 +5,10 @@ class_name Connector
 var ghost_tiles : Array
 var last_spawned : Node3D
 
+#Null = initial, Ghost = Unsichtbar, Preview = buttondown, transparent, placed = in der Szene
+enum States {NULL, GHOST, PREVIEW, PLACED}
+var state : States
+
 func display(result: Dictionary):
 	if result.collider.get_parent().is_in_group("ConnectorRegions"):
 					
@@ -16,13 +20,25 @@ func display(result: Dictionary):
 		var clostest = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
 		
 		for tile in ghost_tiles:
-			Utils.set_color(tile, Color(0, 0, 1, 0))
+			tile.set_state(States.GHOST)
 
 		for valid_tile in _get_all_preview_tiles():	
-			Utils.set_color(valid_tile, Color(0, 0, 1, 0.8))
+			valid_tile.set_state(States.PREVIEW)
 		
 	visible = true
-	
+
+func set_state(newState : States):
+	if state == newState:
+		return
+	match newState:
+		States.GHOST:
+			Utils.set_color(self, Color(0, 0, 1, 0))
+		States.PREVIEW:
+			Utils.set_color(self, Color(0, 0, 1, 0.8))
+		States.PLACED:
+			Utils.set_color(self, Color(0, 0, 1, 1))
+	state = newState
+			
 func spawn(add_to_scene: Callable):
 		last_spawned = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
 		ghost_tiles.append(last_spawned)
@@ -45,7 +61,7 @@ func finish_spawning():
 
 func _post_instantiation():
 	for node in _get_all_preview_tiles():
-		Utils.set_color(node, Color(0, 0, 1, 1))
+		node.set_state(States.PLACED)
 		#TODO: Langfristig über alle Sachen loopen, die auf Connectoren gesetzt werden können
 		var wall = Manager.WAND.instance
 		wall.spawn_gost(node)
@@ -86,10 +102,12 @@ func spawn_ghost_connectors(add_to_scene):
 		var new_tile_x = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
 		new_tile_x.transform.origin = transform.origin + Vector3(i,0,0)
 		add_to_scene.call(new_tile_x)
+		new_tile_x.set_state(States.GHOST)
 		ghost_tiles.append(new_tile_x)
 		
 		var new_tile_z = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
 		new_tile_z.transform.origin = transform.origin + Vector3(0,0,i)
 		add_to_scene.call(new_tile_z)
+		new_tile_z.set_state(States.GHOST)
 		ghost_tiles.append(new_tile_z)
 	return ghost_tiles

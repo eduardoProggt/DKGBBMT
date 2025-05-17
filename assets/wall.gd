@@ -89,13 +89,11 @@ func spawn_gost(node: Connector):
 	for point in relevant_points:
 		
 		query.position = point
-	
 		var result = space_state.intersect_point(query,5)
-		#TODO: Result darf nicht das Preview-Tile sein
 		#result gibt mir die Area3D, daher brauch ich den Parent
 		for res in result:
 			var collided_node = res.collider.get_parent() 
-			if collided_node is Connector: 
+			if collided_node is Connector && collided_node.state == Connector.States.PLACED:
 				var box = create_box_between_points(node.global_position,res.collider.get_parent().global_position)
 				get_tree().current_scene.add_child(box)
 			
