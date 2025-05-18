@@ -98,7 +98,25 @@ func spawn_gost(node: Connector):
 			if collided_node is Connector && collided_node.state == Connector.States.PLACED:
 				var box = create_box_between_points(node.global_position,res.collider.get_parent().global_position)
 				get_tree().current_scene.add_child(box)
-			
+				if _collides_with_already_placed_objects(box):
+					box.queue_free()
+
+func _collides_with_already_placed_objects(box) -> bool:
+	var space_state = get_world_3d().direct_space_state
+
+	var shape_node = Utils.get_only_child(box) as CollisionShape3D
+
+	var query = PhysicsShapeQueryParameters3D.new()
+	query.shape = shape_node.shape
+	query.transform = shape_node.global_transform
+	query.margin = -0.1
+	query.collide_with_bodies = true
+	query.collide_with_areas = true
+	query.collision_mask = 0b01 # nur feste
+	
+	var res = space_state.intersect_shape(query, 1)
+	return !res.is_empty()
+	
 func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 	var body = StaticBody3D.new()
 

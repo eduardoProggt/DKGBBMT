@@ -63,7 +63,7 @@ func _post_instantiation():
 	for node in _get_all_preview_tiles():
 		node.set_state(States.PLACED)
 		#TODO: Langfristig über alle Sachen loopen, die auf Connectoren gesetzt werden können
-		var wall = Manager.WAND.instance
+		var wall : Wall = Manager.WAND.instance
 		wall.spawn_gost(node)
 	ghost_tiles = []
 
