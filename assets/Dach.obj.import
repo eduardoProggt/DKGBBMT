@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c3ibshrici7kq"
+path="res://.godot/imported/Dach.obj-925ca308f16b72a1ef2389e9d778b79c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Dach.obj-925ca308f16b72a1ef2389e9d778b79c.mesh"]
+
+source_file="res://assets/Dach.obj"
+dest_files=["res://.godot/imported/Dach.obj-925ca308f16b72a1ef2389e9d778b79c.mesh", "res://.godot/imported/Dach.obj-925ca308f16b72a1ef2389e9d778b79c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

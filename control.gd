@@ -4,7 +4,8 @@ var buttonToAsset = {
 	Button1 = Manager.BODENPLATTE,
 	Button2 = Manager.CONNECTOR,
 	Button3 = Manager.WAND,
-	Button4 = Manager.HAMMER
+	Button4 = Manager.DACH,
+	Button5 = Manager.HAMMER
 }
 
 func _ready():

@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcrpyyufulli"]
+
+[ext_resource type="ArrayMesh" uid="uid://th4d38mwj6nv" path="res://objects/Dach.obj" id="1_6x70u"]
+[ext_resource type="Script" path="res://assets/dach.gd" id="1_an14m"]
+
+[node name="Dach" type="Node3D"]
+script = ExtResource("1_an14m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_6x70u")

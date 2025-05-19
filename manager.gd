@@ -5,6 +5,7 @@ var nodes: Dictionary = {}
 var BODENPLATTE = Asset.new("res://assets/bodenplatte.tscn")
 var CONNECTOR = Asset.new("res://assets/connector.tscn")
 var WAND = Asset.new("res://assets/wall.tscn")
+var DACH = Asset.new("res://assets/dach.tscn")
 var HAMMER = Asset.new("res://assets/hammer.tscn")
 
 func add_assets(add_node : Callable):
