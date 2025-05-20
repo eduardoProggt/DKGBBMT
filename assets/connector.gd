@@ -64,7 +64,9 @@ func _post_instantiation():
 		node.set_state(States.PLACED)
 		#TODO: Langfristig über alle Sachen loopen, die auf Connectoren gesetzt werden können
 		var wall : Wall = Manager.WAND.instance
+		var roof : Dach = Manager.DACH.instance
 		wall.spawn_gost(node)
+		roof.spawn_gost(node)
 	ghost_tiles = []
 
 func get_center() -> Vector3:

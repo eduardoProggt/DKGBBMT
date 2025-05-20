@@ -1,5 +1,5 @@
 extends Node3D
-
+class_name Dach
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -18,3 +18,17 @@ func display(result):
 
 func finish_spawning():
 	pass
+
+func spawn_gost(node: Connector):
+	var relevant_positions = [
+		node.get_center() + Vector3(12,0,5),
+		node.get_center() + Vector3(12,0,-5),
+		node.get_center() + Vector3(-12,0,5),
+		node.get_center() + Vector3(-12,0,-5),
+		node.get_center() + Vector3(5,0,12),
+		node.get_center() + Vector3(5,0,-12),
+		node.get_center() + Vector3(-5,0,12),
+		node.get_center() + Vector3(-5,0,-12),
+		]
+	for pos in relevant_positions:
+		Utils.spawn_debug_sphere(get_tree(),pos)

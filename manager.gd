@@ -13,6 +13,7 @@ func add_assets(add_node : Callable):
 	add_node.call(CONNECTOR.instance)
 	add_node.call(WAND.instance)
 	add_node.call(HAMMER.instance)
+	add_node.call(DACH.instance)
 
 func register(node):
 	nodes[node.name] = node
