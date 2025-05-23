@@ -33,7 +33,15 @@ func spawn_gost(node: Connector):
 		node.get_center() + Vector3(-5,0,-12),
 		]
 	
+	var collisionBox : CollisionShape3D = find_child("CollisionShape3D")
 	for pos in relevant_positions_horizontal:
+		var newCollisionBox : CollisionShape3D = collisionBox.duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
+		var body = StaticBody3D.new()
+		var shape :BoxShape3D = newCollisionBox.shape
+		#TODO: Rausfinden, warum es genau die x & z Werte sind
+		body.global_transform.origin =  (pos + node.get_center() - shape.size) / 2 - Vector3(0,0,-6)
+		body.add_child(newCollisionBox)
+		get_tree().current_scene.add_child(body)
 		Utils.spawn_debug_sphere(get_tree(),pos)
 	for pos in relevant_positions_vertical:
 		Utils.spawn_debug_sphere(get_tree(),pos)
