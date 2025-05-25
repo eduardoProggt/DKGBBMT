@@ -35,6 +35,8 @@ func spawn_gost(node: Connector):
 	
 	var collisionBox : CollisionShape3D = find_child("CollisionShape3D")
 	for pos in relevant_positions_horizontal:
+		if !has_connector(pos):
+			continue
 		var newCollisionBox : CollisionShape3D = collisionBox.duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
 		var body = StaticBody3D.new()
 		var shape :BoxShape3D = newCollisionBox.shape
@@ -45,6 +47,8 @@ func spawn_gost(node: Connector):
 		get_tree().current_scene.add_child(body)
 		Utils.spawn_debug_sphere(get_tree(),pos)
 	for pos in relevant_positions_vertical:
+		if !has_connector(pos):
+			continue
 		var newCollisionBox : CollisionShape3D = collisionBox.duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
 		newCollisionBox.rotate(Vector3(0,1,0), PI/2)
 		var body = StaticBody3D.new()
@@ -55,3 +59,21 @@ func spawn_gost(node: Connector):
 		body.add_child(newCollisionBox)
 		get_tree().current_scene.add_child(body)
 		Utils.spawn_debug_sphere(get_tree(),pos)
+		
+func has_connector(pos):
+	var space_state = get_world_3d().direct_space_state
+	
+	var query := PhysicsPointQueryParameters3D.new()
+	
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	query.collision_mask = 1 # optional
+	query.position = pos
+	var result = space_state.intersect_point(query,5)
+	
+	for res in result:
+		var collided_node = res.collider.get_parent() 
+		if collided_node is Connector && collided_node.state == Connector.States.PLACED:
+			return true
+	return false
+	
