@@ -32,33 +32,27 @@ func spawn_gost(node: Connector):
 		node.get_center() + Vector3(-5,0,12),
 		node.get_center() + Vector3(-5,0,-12),
 		]
-	
-	var collisionBox : CollisionShape3D = find_child("CollisionShape3D")
+		
 	for pos in relevant_positions_horizontal:
-		if !has_connector(pos):
-			continue
-		var newCollisionBox : CollisionShape3D = collisionBox.duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
-		var body = StaticBody3D.new()
-		var shape :BoxShape3D = newCollisionBox.shape
-		var middle = (pos + node.get_center()) / 2
-		
-		body.global_transform.origin =  (pos + node.get_center() - shape.size) / 2 + Vector3(0,0.6,6) #Der Vector resultiert daraus, dass die Shape 13,0,6 ist aber 13,0,-6 die Position, daher die Halfte *2 = -6 abziehen
-		body.add_child(newCollisionBox)
-		get_tree().current_scene.add_child(body)
-		Utils.spawn_debug_sphere(get_tree(),pos)
+		_add_ghost_to_scene(pos, node.get_center(), 0)
+
 	for pos in relevant_positions_vertical:
-		if !has_connector(pos):
-			continue
-		var newCollisionBox : CollisionShape3D = collisionBox.duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
-		newCollisionBox.rotate(Vector3(0,1,0), PI/2)
-		var body = StaticBody3D.new()
-		var shape :BoxShape3D = newCollisionBox.shape
-		var middle = (pos + node.get_center()) / 2
+		_add_ghost_to_scene(pos, node.get_center(), PI / 2)
 		
-		body.global_transform.origin =  (pos + node.get_center() - shape.size) / 2 + Vector3(0,0.6,6) #Der Vector resultiert daraus, dass die Shape 13,0,6 ist aber 13,0,-6 die Position, daher die Halfte *2 = -6 abziehen
-		body.add_child(newCollisionBox)
-		get_tree().current_scene.add_child(body)
-		Utils.spawn_debug_sphere(get_tree(),pos)
+func _add_ghost_to_scene(pos, connector_center, rotation_y):
+	if !has_connector(pos):
+		return
+	var collisionBox : CollisionShape3D = find_child("CollisionShape3D")
+	var newCollisionBox : CollisionShape3D = collisionBox.duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
+	newCollisionBox.rotate(Vector3(0,1,0), rotation_y)
+	var body = StaticBody3D.new()
+	var shape :BoxShape3D = newCollisionBox.shape
+	var middle = (pos + connector_center) / 2
+	
+	body.global_transform.origin =  (pos + connector_center - shape.size) / 2 + Vector3(0,0.6,6) #Der Vector resultiert daraus, dass die Shape 13,0,6 ist aber 13,0,-6 die Position, daher die Halfte *2 = -6 abziehen
+	body.add_child(newCollisionBox)
+	get_tree().current_scene.add_child(body)
+	Utils.spawn_debug_sphere(get_tree(),pos)
 		
 func has_connector(pos):
 	var space_state = get_world_3d().direct_space_state
