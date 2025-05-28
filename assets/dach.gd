@@ -44,8 +44,10 @@ func _add_ghost_to_scene(pos, connector_center, rotation_y):
 		return
 	var collisionBox : CollisionShape3D = find_child("CollisionShape3D")
 	var newCollisionBox : CollisionShape3D = collisionBox.duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
+	
 	newCollisionBox.rotate(Vector3(0,1,0), rotation_y)
 	var body = StaticBody3D.new()
+	body.collision_layer = 0b10 #Ghost-ebene
 	var shape :BoxShape3D = newCollisionBox.shape
 	var middle = (pos + connector_center) / 2
 	

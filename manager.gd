@@ -23,9 +23,12 @@ func is_mouse_over_menu():
 	return control_panel.get_global_rect().has_point(control_panel.get_global_mouse_position())
 
 func set_current_ghost_tile(tile: Asset):
-	
 	var main_scene = nodes["MainScene"]
 	main_scene.set_indicator(tile.instance)
+
+# Gibt alle Assets raus, die AUF Conneectoren gesetzt verden können
+func get_connectables():
+	return [WAND, DACH]
 
 class Asset:
 	var path: String

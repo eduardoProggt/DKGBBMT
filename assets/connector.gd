@@ -60,14 +60,13 @@ func finish_spawning():
 	
 
 func _post_instantiation():
-	for node in _get_all_preview_tiles():
-		node.set_state(States.PLACED)
-		#TODO: Langfristig über alle Sachen loopen, die auf Connectoren gesetzt werden können
-		var wall : Wall = Manager.WAND.instance
-		var roof : Dach = Manager.DACH.instance
-		wall.spawn_gost(node)
-		roof.spawn_gost(node)
+	for new_connector in _get_all_preview_tiles():
+		new_connector.set_state(States.PLACED)
+		
+		for connectable in Manager.get_connectables():
+			connectable.instance.spawn_gost(new_connector)
 	ghost_tiles = []
+
 
 func get_center() -> Vector3:
 	return global_transform.origin + Vector3(+0.5,0.5,-0.5)
