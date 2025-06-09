@@ -2,11 +2,14 @@ extends Placable_Node3D
 
 class_name Wall
 
+const GHOST_GROUP = "Wall_Ghost"
+
 func _init():
-	super("WallGhost")
+	super(GHOST_GROUP)
 
 
 func _snap_to_ghost(collision_shape : CollisionShape3D):
+	var test = collision_shape.get_parent()
 	if collision_shape.get_parent().rotation.y != 0:
 		transform.origin = collision_shape.global_transform.origin + Vector3(3,-3,0.5);
 		rotation.y = 0
@@ -84,6 +87,6 @@ func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 	collision_shape.disabled = true # Wird erst enabled, wenn Wall angewählt wird
 
 	body.add_child(collision_shape)
-	body.add_to_group("WallGhost")
+	body.add_to_group(GHOST_GROUP)
 	
 	return body

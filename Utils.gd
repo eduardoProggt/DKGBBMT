@@ -79,4 +79,15 @@ static func spawn_debug_sphere(tree: SceneTree,position: Vector3, radius := 0.1,
 	sphere.global_transform.origin = position
 	tree.current_scene.add_child(sphere)
 	return sphere
-	
+
+static var collision_sphere : CollisionShape3D
+
+static func load_collision_sphere(scene_tree : SceneTree):
+	if collision_sphere != null:
+		return collision_sphere
+	collision_sphere = CollisionShape3D.new()
+	var sphere = SphereShape3D.new()
+	sphere.radius = 0.1
+	collision_sphere.shape = sphere
+	scene_tree.current_scene.add_child(collision_sphere)
+	return collision_sphere

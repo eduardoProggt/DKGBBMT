@@ -1,4 +1,4 @@
-extends Node3D
+extends Placable_Node3D
 
 class_name Connector
 
@@ -9,8 +9,11 @@ var last_spawned : Node3D
 enum States {NULL, GHOST, PREVIEW, PLACED}
 var state : States
 
+func _init():
+	super("ConnectorGhost")
+
 func display(result: Dictionary):
-	if result.collider.is_in_group("ConnectorGhost"):
+	if result.collider.is_in_group(_group_name):
 					
 		#Setze Connector in die BB des Colliders
 		var collision_shape = Utils.get_only_child(result.collider)

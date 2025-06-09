@@ -8,13 +8,22 @@ var WAND = Asset.new("res://assets/wall.tscn")
 var DACH = Asset.new("res://assets/dach.tscn")
 var HAMMER = Asset.new("res://assets/hammer.tscn")
 
-func add_assets(add_node : Callable):
-	add_node.call(BODENPLATTE.instance)
-	add_node.call(CONNECTOR.instance)
-	add_node.call(WAND.instance)
-	add_node.call(HAMMER.instance)
-	add_node.call(DACH.instance)
+var ghost_groups = []
 
+func add_assets(add_node : Callable):
+	_add_asset(BODENPLATTE, add_node)
+	_add_asset(CONNECTOR, add_node)
+	_add_asset(WAND, add_node)
+	_add_asset(DACH, add_node)
+
+	add_node.call(HAMMER.instance)
+
+func _add_asset(asset : Asset, add_node : Callable):
+	var instance = asset.instance
+	add_node.call(instance)
+	if(instance is Placable_Node3D):
+		ghost_groups.append(instance._group_name)
+	
 func register(node):
 	nodes[node.name] = node
 

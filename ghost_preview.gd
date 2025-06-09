@@ -67,15 +67,13 @@ func switch_indicator(indicator: Node3D):
 	collisions = 0
 
 func enable_disable_hitboxes(node : Node3D):
-	if node is Bodenplatte:
-		set_group_collision("WallGhost", false)
-		set_group_collision("ConnectorGhost", false)
-	if node is Connector:
-		set_group_collision("WallGhost", false)
-		set_group_collision("ConnectorGhost", true)
-	elif node is Wall:
-		set_group_collision("WallGhost", true)
-		set_group_collision("ConnectorGhost", false)
+	
+	for i in Manager.ghost_groups:
+		if node is Placable_Node3D:
+			var is_chosen_group = i == node._group_name
+			set_group_collision(i, is_chosen_group)
+		else:
+			set_group_collision(i, false)
 
 func set_group_collision(group_name: String, enabled: bool):
 	var nodes_in_group = get_tree().get_nodes_in_group(group_name)

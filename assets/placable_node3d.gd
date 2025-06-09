@@ -12,17 +12,13 @@ func _init(group_name : String):
 	_group_name = group_name
 
 func _ready():
-	collision_sphere = CollisionShape3D.new()
-	var sphere = SphereShape3D.new()
-	sphere.radius = 0.1
-	collision_sphere.shape = sphere
-	get_tree().current_scene.add_child(collision_sphere)
+	collision_sphere = Utils.load_collision_sphere(get_tree())
 
 func display(result: Dictionary):
 	visible = true
 	
 	var collision_point : Vector3 = result.position
-	var colliding_objects : Array = _get_intersecting_wall_ghosts(collision_point)
+	var colliding_objects : Array = _get_intersecting_ghosts(collision_point)
 	
 	var closest = _find_closest(collision_point, colliding_objects)
 	if closest != null && closest.is_in_group(_group_name):
@@ -30,12 +26,13 @@ func display(result: Dictionary):
 			if child is CollisionShape3D:
 				_snap_to_ghost(child)
 
-func _get_intersecting_wall_ghosts(collision_point : Vector3) -> Array:
+func _get_intersecting_ghosts(collision_point : Vector3) -> Array:
 	# um nicht nur das erste sondern mehrere Results zu bekommen, 
 	# spawnen wir eine Kugel am einschlagspunkt und intersecten nochmal.
 	collision_sphere.global_transform = Transform3D(Basis(), collision_point)
 	var colliding_objects = []
-	_foreach_colliding_wall_ghosts(collision_sphere, func(o): colliding_objects.append(o))
+	_foreach_colliding_ghosts(collision_sphere, func(o): colliding_objects.append(o))
+	print(colliding_objects.size())
 	return colliding_objects
 
 func _find_closest(collision_point : Vector3, colliding_objects) -> Node3D:
@@ -57,15 +54,17 @@ func spawn(add_to_scene: Callable):
 	
 func _delete_colliding_shapes(new_tile):
 	var collision_shape = new_tile.find_child("CollisionShape3D")
-	_foreach_colliding_wall_ghosts(collision_shape, func(n): n.queue_free())
+	_foreach_colliding_ghosts(collision_shape, func(n): n.queue_free())
 	
 
 func _snap_to_ghost(collision_shape : CollisionShape3D):
-	pass #abstract?
+	assert(false)
+	# ABSTRACT
 
-func _foreach_colliding_wall_ghosts(node : CollisionShape3D, process : Callable):
+func _foreach_colliding_ghosts(node : CollisionShape3D, process : Callable):
 	var query = PhysicsShapeQueryParameters3D.new()
 	query.shape = node.shape
+	query.margin = - 0.01
 	query.transform = node.global_transform
 	var space_state = get_world_3d().direct_space_state
 	var results = space_state.intersect_shape(query, 32)
