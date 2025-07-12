@@ -37,25 +37,20 @@ func spawn_gost(node: Connector):
 		node.get_center() + Vector3(-12,0,0)
 		]
 
-		
 	for pos in relevant_positions_horizontal_short:
-		Utils.spawn_debug_sphere(get_tree(),pos)
 		if _has_connector(pos):
 			_add_ghost_to_scene(pos, node.get_center() + Vector3(-12,0,0), 0)
 			_add_ghost_to_scene(pos, node.get_center() + Vector3(12,0,0), 0)
 	for pos in relevant_positions_horizontal_long:
-		Utils.spawn_debug_sphere(get_tree(),pos)
 		if _has_connector(pos):
 			_add_ghost_to_scene(pos, node.get_center() + Vector3(5,0,0), PI / 2)
 			_add_ghost_to_scene(pos, node.get_center() + Vector3(-5,0,0), PI / 2)
 
 	for pos in relevant_positions_vertical_short:
-		Utils.spawn_debug_sphere(get_tree(),pos)
 		if _has_connector(pos):
 			_add_ghost_to_scene(pos, node.get_center() + Vector3(0,0,-12), PI / 2)
 			_add_ghost_to_scene(pos, node.get_center() + Vector3(0,0,12), PI / 2)
 	for pos in relevant_positions_vertical_long:
-		Utils.spawn_debug_sphere(get_tree(),pos)
 		if _has_connector(pos):
 			_add_ghost_to_scene(pos, node.get_center() + Vector3(0,0,5), 0)
 			_add_ghost_to_scene(pos, node.get_center() + Vector3(0,0,-5), 0)
