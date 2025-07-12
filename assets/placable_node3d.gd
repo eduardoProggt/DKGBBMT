@@ -38,13 +38,22 @@ func _get_intersecting_ghosts(collision_point : Vector3) -> Array:
 func _find_closest(collision_point : Vector3, colliding_objects) -> Node3D:
 	var distance = 10000
 	var closest : Node3D
-	for obj : Node3D in colliding_objects:
-		var pos = obj.transform.origin # mist ich brauch die Mitte
+	for obj : StaticBody3D in colliding_objects:
+		
+		var pos = get_bb_center(obj)
 		var recent_distance = collision_point.distance_to(pos)
 		if recent_distance < distance:
 			distance = recent_distance
 			closest = obj
 	return closest 
+
+func get_bb_center( obj : StaticBody3D) -> Vector3:
+
+	for i in obj.get_children():
+		if i is CollisionShape3D:
+			return i.global_transform.origin
+	#Fallback falls keine BB da ist
+	return obj.global_transform.origin
 
 func spawn(add_to_scene: Callable):
 	var new_tile : Node3D = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
