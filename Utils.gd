@@ -1,5 +1,7 @@
 class_name Utils
 
+static var material_manager : Material_Manager = Material_Manager.new()
+
 static func get_closest_node_to_mouse_ray(viewport: Viewport, nodes):
 
 	var camera := viewport.get_camera_3d()
@@ -52,21 +54,8 @@ static func get_only_child(node: Node):
 	assert(node.get_child_count() == 1, "Fehler:"+node.get_name()+" hat nicht genau ein Kind!")
 	return node.get_child(0)
 	
-static func set_color(instance, color: Color):
-	if instance == null:
-		return
-	var mesh_instance = instance.find_child("MeshInstance3D", true, false)
-	if mesh_instance.material_override != null && mesh_instance.material_override.albedo_color == color:
-		return
-	var new_material = StandardMaterial3D.new()
-	if(color.a != 1):
-		new_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-		new_material.cull_mode = BaseMaterial3D.CULL_BACK
-	new_material.albedo_color = color
-	mesh_instance.material_override = new_material	
-	
 static func spawn_debug_sphere(tree: SceneTree,position: Vector3, radius := 0.1, color := Color.RED):
-	tree.current_scene
+	
 	var sphere := MeshInstance3D.new()
 	var mesh := SphereMesh.new()
 	mesh.radius = radius
@@ -91,3 +80,6 @@ static func load_collision_sphere(scene_tree : SceneTree):
 	collision_sphere.shape = sphere
 	scene_tree.current_scene.add_child(collision_sphere)
 	return collision_sphere
+
+static func set_color(instance : Node, color : Color):
+	material_manager.set_color(instance, color)

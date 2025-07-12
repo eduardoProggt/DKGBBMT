@@ -32,7 +32,7 @@ func _get_intersecting_ghosts(collision_point : Vector3) -> Array:
 	collision_sphere.global_transform = Transform3D(Basis(), collision_point)
 	var colliding_objects = []
 	_foreach_colliding_ghosts(collision_sphere, func(o): colliding_objects.append(o))
-	print(colliding_objects.size())
+	
 	return colliding_objects
 
 func _find_closest(collision_point : Vector3, colliding_objects) -> Node3D:
@@ -57,7 +57,7 @@ func _delete_colliding_shapes(new_tile):
 	_foreach_colliding_ghosts(collision_shape, func(n): n.queue_free())
 	
 
-func _snap_to_ghost(collision_shape : CollisionShape3D):
+func _snap_to_ghost(_collision_shape : CollisionShape3D):
 	assert(false)
 	# ABSTRACT
 

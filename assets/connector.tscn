@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dgwgmibke1nuy"]
 
-[ext_resource type="ArrayMesh" uid="uid://buc058uho3mnw" path="res://objects/Connector.obj" id="1_5akd5"]
+[ext_resource type="ArrayMesh" uid="uid://d4kguik5jajsu" path="res://objects/Connector.obj" id="1_5akd5"]
 [ext_resource type="Script" path="res://assets/connector.gd" id="1_g0p15"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o0ser"]

@@ -58,7 +58,7 @@ func switch_indicator(indicator: Node3D):
 			old_area.area_exited.disconnect(_on_body_exited)
 
 	tile_indicator = indicator
-	add_child(tile_indicator)
+	#add_child(tile_indicator)
 
 	var area = tile_indicator.find_child("Area3D")
 	if area:

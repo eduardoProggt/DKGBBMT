@@ -10,18 +10,17 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_ft0it"]
 size = Vector3(200, 1, 200)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_x0fug"]
-load_path = "res://.godot/imported/grass_texture.png-0b0259e172a1201123b84882d4dd6b98.s3tc.ctex"
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4vkiw"]
-albedo_texture = SubResource("CompressedTexture2D_x0fug")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mwknk"]
-albedo_color = Color(0, 0.345098, 0, 1)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6vypv"]
 albedo_texture = ExtResource("2_ew3ln")
 
-[sub_resource type="BoxMesh" id="BoxMesh_18iu5"]
-material = SubResource("StandardMaterial3D_mwknk")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bbsfd"]
+albedo_texture = ExtResource("2_ew3ln")
+
+[sub_resource type="BoxMesh" id="BoxMesh_g50af"]
+material = SubResource("StandardMaterial3D_bbsfd")
+
+[sub_resource type="LabelSettings" id="LabelSettings_owe14"]
+font_color = Color(1, 0, 0, 1)
 
 [node name="MainScene" type="Node3D"]
 script = ExtResource("1_6wwel")
@@ -39,7 +38,7 @@ fov = 42.9
 script = ExtResource("2_83ax7")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.761661, 0.646947, -0.0365002, -0.0636899, -0.0186884, 0.997795, 0.644838, 0.762306, 0.0554382, 0.325562, 26.2814, -27.5894)
+transform = Transform3D(-0.195862, 0.980178, 0.029809, -0.328771, -0.0942735, 0.939693, 0.923877, 0.174249, 0.340719, 0.325562, 26.2814, -27.5894)
 
 [node name="FlatGround" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
@@ -51,8 +50,8 @@ shape = SubResource("BoxShape3D_ft0it")
 
 [node name="GroundMesh" type="MeshInstance3D" parent="FlatGround"]
 transform = Transform3D(200, 0, 0, 0, 1, 0, 0, 0, 200, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_4vkiw")
-mesh = SubResource("BoxMesh_18iu5")
+material_override = SubResource("StandardMaterial3D_6vypv")
+mesh = SubResource("BoxMesh_g50af")
 skeleton = NodePath("../..")
 
 [node name="Control" type="Control" parent="."]
@@ -105,3 +104,8 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Löschen
 "
+
+[node name="Label" type="Label" parent="Control/MarginContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Test"
+label_settings = SubResource("LabelSettings_owe14")

@@ -9,7 +9,7 @@ func _init():
 
 
 func _snap_to_ghost(collision_shape : CollisionShape3D):
-	var test = collision_shape.get_parent()
+	
 	if collision_shape.get_parent().rotation.y != 0:
 		transform.origin = collision_shape.global_transform.origin + Vector3(3,-3,0.5);
 		rotation.y = 0
@@ -47,7 +47,7 @@ func spawn_gost(node: Connector):
 			var collided_node = res.collider.get_parent() 
 			if collided_node is Connector && collided_node.state == Connector.States.PLACED:
 				var box = create_box_between_points(node.global_position,res.collider.get_parent().global_position)
-				get_tree().current_scene.add_child(box)
+				
 				if _collides_with_already_placed_objects(box):
 					box.queue_free()
 
@@ -69,7 +69,7 @@ func _collides_with_already_placed_objects(box) -> bool:
 	
 func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 	var body = StaticBody3D.new()
-
+	get_tree().current_scene.add_child(body)
 	# Mesh positionieren
 	var center = (start + end) * 0.5
 	body.global_transform.origin = center + Vector3(0.5, 1 + 3, -0.5)

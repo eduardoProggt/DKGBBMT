@@ -48,14 +48,16 @@ func _add_ghost_to_scene(pos, connector_center, rotation_y):
 	
 	newCollisionBox.rotate(Vector3(0,1,0), rotation_y)
 	var body = StaticBody3D.new()
+	get_tree().current_scene.add_child(body)
 	body.collision_layer = 0b10 #Ghost-ebene
 	var shape :BoxShape3D = newCollisionBox.shape
 	
 	body.global_transform.origin =  (pos + connector_center - shape.size) / 2 + Vector3(0,0.6,6) 
+	newCollisionBox.disabled = true # Wird erst enabled, wenn Dach angewählt wird
+	
 	body.add_child(newCollisionBox)
 	body.add_to_group(GHOST_GROUP)
 	
-	get_tree().current_scene.add_child(body)
 		
 func _has_connector(pos):
 	var space_state = get_world_3d().direct_space_state

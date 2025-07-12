@@ -1,10 +1,13 @@
 extends Node3D
 
+var ghost_preview : GhostPreviewNode
+
 func _ready():
 	Manager.register(self)
 	# Verlegenheitsmethode... Ich will dass von Anfang an von jedem Placable Asset eine Instanz da ist
 	# TODO: geschmeidigere Lösung überlegen
 	Manager.add_assets(add_child);
+	ghost_preview = find_child("GhostPreview")
 	set_indicator(Manager.BODENPLATTE.instance)
 	
 func _process(_delta):
@@ -35,9 +38,11 @@ func _input(event):
 				get_ghost_preview_node().handle_button_up()
 				
 	if event is InputEventKey:
-		if event.pressed and event.keycode == KEY_SPACE:
-			get_ghost_preview_node().rotate_90_degrees()
-			
+		if event.pressed: 
+			if event.keycode == KEY_SPACE:
+				get_ghost_preview_node().rotate_90_degrees()
+
+				
 func handle_left_click():
 	if get_ghost_preview_node().can_spawn() && !Manager.is_mouse_over_menu():
 		#Sonderfall: Buttondown bei löschen
@@ -59,7 +64,7 @@ func set_indicator(indicator: Node3D):
 	get_ghost_preview_node().switch_indicator(indicator)
 
 func get_ghost_preview_node() -> GhostPreviewNode:
-	return find_child("GhostPreview")
+	return ghost_preview
 	
 func _is_delete_mode():
 	return get_ghost_preview_node().tile_indicator.is_in_group("Delete")

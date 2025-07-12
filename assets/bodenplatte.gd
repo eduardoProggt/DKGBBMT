@@ -2,7 +2,7 @@ extends Node3D
 
 class_name Bodenplatte
 
-func display(result: Dictionary):
+func display(_result: Dictionary):
 	visible = true
 	
 func spawn(add_to_scene: Callable):

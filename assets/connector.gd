@@ -20,17 +20,20 @@ func display(result: Dictionary):
 		transform.origin = collision_shape.global_transform.origin + Vector3(-1,-1,1)/2; #Woher dieser Offset!?
 		
 	if(!ghost_tiles.is_empty()):# Sinngleich mit MouseDown
-		var clostest = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
-		
+		#var clostest = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
+
 		for tile in ghost_tiles:
 			tile.set_state(States.GHOST)
-
-		for valid_tile in _get_all_preview_tiles():	
+			
+		var all_preview_tiles = _get_all_preview_tiles()
+		
+		for valid_tile in all_preview_tiles:	
 			valid_tile.set_state(States.PREVIEW)
 		
 	visible = true
 
 func set_state(newState : States):
+	
 	if state == newState:
 		return
 	match newState:
@@ -41,15 +44,24 @@ func set_state(newState : States):
 		States.PLACED:
 			Utils.set_color(self, Color(0, 0, 1, 1))
 	state = newState
+
 			
 func spawn(add_to_scene: Callable):
-		last_spawned = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
-		ghost_tiles.append(last_spawned)
-		spawn_ghost_connectors(add_to_scene)
-		#TODO: Kollision
-		#Sollte einer kollidieren: Rotfärben
-		#bei Buttonup: wenn einer rot -> alles resetten (Oder alle zwischen a und rot setzen?)
-		add_to_scene.call(last_spawned)
+	
+	last_spawned = duplicate(DUPLICATE_USE_INSTANTIATION )
+	var ghost_connectors = instantiate_ghost_connectors(add_to_scene)
+	
+	ghost_tiles.append(last_spawned)
+	ghost_connectors.add_child(last_spawned)
+
+	#TODO: Kollision
+	#Sollte einer kollidieren: Rotfärben
+	#bei Buttonup: wenn einer rot -> alles resetten (Oder alle zwischen a und rot setzen?)
+
+	add_to_scene.call(ghost_connectors)
+
+	await get_tree().process_frame
+
 		
 func finish_spawning():
 	if(ghost_tiles.is_empty()): # Sinngleich mit MouseUp
@@ -74,44 +86,51 @@ func _post_instantiation():
 func get_center() -> Vector3:
 	return global_transform.origin + Vector3(+0.5,0.5,-0.5)
 
-	
+#Vom Ghost-Kreuz werden die gewählt, zwischen Buttomdown und buttomup, um diesen zieh-effekt zu bekommen
 func _get_all_preview_tiles():
 	var first = last_spawned
 	var last = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
 	
-	var valid_positions: Array
+	var preview_tiles = []
 	
-	valid_positions.append(first)
+	preview_tiles.append(first)
 	if(last.transform.origin.z == first.transform.origin.z):
 		for i in Utils.float_range(last.transform.origin.x, first.transform.origin.x,1):
-			var position = Vector3(i,last.transform.origin.y, first.transform.origin.z)
-			valid_positions.append(_find_tile_with_position(position))
+			var valid_position = Vector3(i,last.transform.origin.y, first.transform.origin.z)
+			preview_tiles.append(_find_tile_with_position(valid_position))
 	if(last.transform.origin.x == first.transform.origin.x):
 		for i in Utils.float_range(last.transform.origin.z, first.transform.origin.z,1):
-			var position = Vector3(last.transform.origin.x,last.transform.origin.y, i)
-			valid_positions.append(_find_tile_with_position(position))
-	return valid_positions
+			var valid_position = Vector3(last.transform.origin.x,last.transform.origin.y, i)
+			preview_tiles.append(_find_tile_with_position(valid_position))
+	return preview_tiles
 
 func _find_tile_with_position(pos: Vector3):
 	for tile in ghost_tiles:
 		if tile.transform.origin == pos:
 			return tile
 
-func spawn_ghost_connectors(add_to_scene):
+func instantiate_ghost_connectors(add_to_scene) -> Node3D:
 	var origin = transform.origin
 	
-	for i in range(-20, 21):
+	var container := Node3D.new()
+	
+	for i in range(-12, 13):
 		if i == 0:
 			continue
 		var new_tile_x = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
-		new_tile_x.transform.origin = transform.origin + Vector3(i,0,0)
-		add_to_scene.call(new_tile_x)
-		new_tile_x.set_state(States.GHOST)
-		ghost_tiles.append(new_tile_x)
+		
+		if new_tile_x != null:
+			new_tile_x.transform.origin = transform.origin + Vector3(i,0,0)
+			container.add_child(new_tile_x)
+			new_tile_x.set_state(States.GHOST)
+			ghost_tiles.append(new_tile_x)
 		
 		var new_tile_z = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
-		new_tile_z.transform.origin = transform.origin + Vector3(0,0,i)
-		add_to_scene.call(new_tile_z)
-		new_tile_z.set_state(States.GHOST)
-		ghost_tiles.append(new_tile_z)
-	return ghost_tiles
+		
+		if new_tile_z != null:
+			new_tile_z.transform.origin = transform.origin + Vector3(0,0,i)
+			container.add_child(new_tile_z)
+			new_tile_z.set_state(States.GHOST)
+			ghost_tiles.append(new_tile_z)
+	
+	return container
