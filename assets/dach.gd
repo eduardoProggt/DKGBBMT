@@ -20,26 +20,45 @@ func finish_spawning():
 	pass
 
 func spawn_gost(node: Connector):
-	var relevant_positions_horizontal = [
-		node.get_center() + Vector3(12,0,5),
-		node.get_center() + Vector3(12,0,-5),
-		node.get_center() + Vector3(-12,0,5),
-		node.get_center() + Vector3(-12,0,-5),
+	var relevant_positions_horizontal_short = [
+		node.get_center() + Vector3(0,0,5),
+		node.get_center() + Vector3(0,0,-5)
 		]
-	var relevant_positions_vertical = [		
-		node.get_center() + Vector3(5,0,12),
-		node.get_center() + Vector3(5,0,-12),
-		node.get_center() + Vector3(-5,0,12),
-		node.get_center() + Vector3(-5,0,-12),
+	var relevant_positions_horizontal_long = [
+		node.get_center() + Vector3(0,0,12),
+		node.get_center() + Vector3(0,0,-12)
 		]
-		
-	for pos in relevant_positions_horizontal:
-		if _has_connector(pos):
-			_add_ghost_to_scene(pos, node.get_center(), 0)
+	var relevant_positions_vertical_short = [
+		node.get_center() + Vector3(5,0,0),
+		node.get_center() + Vector3(-5,0,0)
+		]
+	var relevant_positions_vertical_long = [
+		node.get_center() + Vector3(12,0,0),
+		node.get_center() + Vector3(-12,0,0)
+		]
 
-	for pos in relevant_positions_vertical:
+		
+	for pos in relevant_positions_horizontal_short:
+		Utils.spawn_debug_sphere(get_tree(),pos)
 		if _has_connector(pos):
-			_add_ghost_to_scene(pos, node.get_center(), PI / 2)
+			_add_ghost_to_scene(pos, node.get_center() + Vector3(-12,0,0), 0)
+			_add_ghost_to_scene(pos, node.get_center() + Vector3(12,0,0), 0)
+	for pos in relevant_positions_horizontal_long:
+		Utils.spawn_debug_sphere(get_tree(),pos)
+		if _has_connector(pos):
+			_add_ghost_to_scene(pos, node.get_center() + Vector3(5,0,0), PI / 2)
+			_add_ghost_to_scene(pos, node.get_center() + Vector3(-5,0,0), PI / 2)
+
+	for pos in relevant_positions_vertical_short:
+		Utils.spawn_debug_sphere(get_tree(),pos)
+		if _has_connector(pos):
+			_add_ghost_to_scene(pos, node.get_center() + Vector3(0,0,-12), PI / 2)
+			_add_ghost_to_scene(pos, node.get_center() + Vector3(0,0,12), PI / 2)
+	for pos in relevant_positions_vertical_long:
+		Utils.spawn_debug_sphere(get_tree(),pos)
+		if _has_connector(pos):
+			_add_ghost_to_scene(pos, node.get_center() + Vector3(0,0,5), 0)
+			_add_ghost_to_scene(pos, node.get_center() + Vector3(0,0,-5), 0)
 		
 func _add_ghost_to_scene(pos, connector_center, rotation_y):
 
