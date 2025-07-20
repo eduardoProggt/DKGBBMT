@@ -7,7 +7,7 @@ var last_spawned : Node3D
 
 #Null = initial, Ghost = Unsichtbar, Preview = buttondown, transparent, placed = in der Szene
 enum States {NULL, GHOST, PREVIEW, PLACED}
-var state : States
+var _state : States
 
 func _init():
 	super("ConnectorGhost")
@@ -37,7 +37,7 @@ func display(result: Dictionary):
 
 func set_state(newState : States):
 	
-	if state == newState:
+	if _state == newState:
 		return
 	match newState:
 		States.GHOST:
@@ -46,7 +46,10 @@ func set_state(newState : States):
 			Utils.set_color(self, Color(0, 0, 1, 0.8))
 		States.PLACED:
 			Utils.set_color(self, Color(0, 0, 1, 1))
-	state = newState
+	_state = newState
+	
+func get_state():
+	return _state
 
 			
 func spawn(add_to_scene: Callable):
@@ -65,27 +68,32 @@ func spawn(add_to_scene: Callable):
 
 	await get_tree().process_frame
 
-		
+	# Bei MouseUp
 func finish_spawning():
-	if(ghost_tiles.is_empty()): # Sinngleich mit MouseUp
+	if(ghost_tiles.is_empty()): 
 		return
 
 	for node_to_delete in ghost_tiles:
-		if not node_to_delete in _get_all_preview_tiles():
-			node_to_delete.queue_free()
+#		Alte Kamelle lass ich erstmal als kommi drin da nucht 100% getestet
+#		if not node_to_delete in _get_all_preview_tiles():
+		if node_to_delete.get_state() == States.GHOST:
 			node_to_delete.find_child("CollisionShape3D").disabled = true
+			node_to_delete.queue_free()
+			
 	_post_instantiation()
 	
 
 func _post_instantiation():
 	for new_connector in _get_all_preview_tiles():
-		new_connector.set_state(States.PLACED)
-		
-		for connectable in Manager.get_connectables():
-			connectable.instance.spawn_gost(new_connector)
+		if new_connector.get_state() == States.PREVIEW:
+			new_connector.set_state(States.PLACED)
+			_spawn_concrete_ghosts(new_connector)
 	ghost_tiles = []
 
-
+func _spawn_concrete_ghosts(new_connector):
+	for connectable in Manager.get_connectables():
+		connectable.instance.spawn_gost(new_connector)
+		
 func get_center() -> Vector3:
 	return global_transform.origin + Vector3(+0.5,0.5,-0.5)
 
@@ -123,6 +131,7 @@ func instantiate_ghost_connectors(add_to_scene) -> Node3D:
 		_inst_connector(container, i)
 	
 	return container
+	
 func _inst_connector(container, i):
 	
 	var new_tile_x = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)

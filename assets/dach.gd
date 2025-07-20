@@ -87,7 +87,7 @@ func _has_connector(pos):
 	
 	for res in result:
 		var collided_node = res.collider.get_parent() 
-		if collided_node is Connector && collided_node.state == Connector.States.PLACED:
+		if collided_node is Connector && collided_node.get_state() == Connector.States.PLACED:
 			return true
 	return false
 	
