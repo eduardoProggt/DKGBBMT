@@ -12,6 +12,7 @@ size = Vector3(5.99, 5.99, 0.99)
 [sub_resource type="BoxShape3D" id="BoxShape3D_1owmw"]
 
 [node name="Wall" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -100, 0)
 script = ExtResource("1_wfms0")
 
 [node name="Area3D" type="Area3D" parent="."]

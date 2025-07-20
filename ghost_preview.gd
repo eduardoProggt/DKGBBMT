@@ -23,8 +23,6 @@ func display(result):
 		#Intersected mit gar nichts	
 		tile_indicator.visible = false
 		return
-	#TODO: Eine Menge an Objects definieren, mit denen ein Objekt nicht collidiert.
-	#Beispiel: Eine Wand mit Connector-Regions
 	tile_indicator.transform.origin = discretize_hit_position(result.position)	
 	tile_indicator.display(result)	
 	
@@ -57,6 +55,10 @@ func switch_indicator(indicator: Node3D):
 		if old_area:
 			old_area.area_entered.disconnect(_on_body_entered)
 			old_area.area_exited.disconnect(_on_body_exited)
+	
+	if tile_indicator:
+		#Unbenutzte wegtransformieren
+		tile_indicator.global_transform.origin = Vector3(0, -100, 0)
 
 	tile_indicator = indicator
 	#add_child(tile_indicator)

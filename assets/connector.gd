@@ -11,7 +11,7 @@ var _state : States
 
 func _init():
 	super("ConnectorGhost")
-
+	
 func display(result: Dictionary):
 	if result.collider.is_in_group(_group_name):
 		
@@ -108,16 +108,20 @@ func _get_all_preview_tiles():
 	if(last.transform.origin.z == first.transform.origin.z):
 		for i in Utils.float_range(last.transform.origin.x, first.transform.origin.x,1):
 			var valid_position = Vector3(i,last.transform.origin.y, first.transform.origin.z)
-			preview_tiles.append(_find_tile_with_position(valid_position))
+			var tile = _find_tile_with_position(valid_position)
+			if tile:
+				preview_tiles.append(tile)
 	if(last.transform.origin.x == first.transform.origin.x):
 		for i in Utils.float_range(last.transform.origin.z, first.transform.origin.z,1):
 			var valid_position = Vector3(last.transform.origin.x,last.transform.origin.y, i)
-			preview_tiles.append(_find_tile_with_position(valid_position))
+			var tile = _find_tile_with_position(valid_position)
+			if tile:
+				preview_tiles.append(tile)
 	return preview_tiles
 
 func _find_tile_with_position(pos: Vector3):
 	for tile in ghost_tiles:
-		if tile.transform.origin == pos:
+		if tile.transform.origin.distance_to(pos) < 0.01:
 			return tile
 
 func instantiate_ghost_connectors(add_to_scene) -> Node3D:
