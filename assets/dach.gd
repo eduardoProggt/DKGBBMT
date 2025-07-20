@@ -72,7 +72,8 @@ func _add_ghost_to_scene(pos, connector_center, rotation_y):
 	body.add_child(newCollisionBox)
 	body.add_to_group(GHOST_GROUP)
 	
-		
+
+# TODO: Ab in die Oberklasse
 func _has_connector(pos):
 	var space_state = get_world_3d().direct_space_state
 	

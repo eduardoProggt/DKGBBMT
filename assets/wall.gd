@@ -31,26 +31,30 @@ func spawn_gost(node: Connector):
 		node.get_center() + Vector3(0,0,-5)
 	]
 	
+
+	for pos in relevant_points:
+		if _has_connector(pos):
+			var box = create_box_between_points(node.global_position,pos+Vector3(-0.5,-0.5,0.5))#res.collider.get_parent().global_position)
+
+			if _collides_with_already_placed_objects(box):
+				box.queue_free()
+# TODO: Ab in die Oberklasse
+func _has_connector(pos):
 	var space_state = get_world_3d().direct_space_state
-	
 	var query := PhysicsPointQueryParameters3D.new()
 	
 	query.collide_with_areas = true
 	query.collide_with_bodies = true
 	query.collision_mask = 1 # optional
-	for point in relevant_points:
-		
-		query.position = point
-		var result = space_state.intersect_point(query,5)
-		#result gibt mir die Area3D, daher brauch ich den Parent
-		for res in result:
-			var collided_node = res.collider.get_parent() 
-			if collided_node is Connector && collided_node.state == Connector.States.PLACED:
-				var box = create_box_between_points(node.global_position,res.collider.get_parent().global_position)
-				
-				if _collides_with_already_placed_objects(box):
-					box.queue_free()
-
+	query.position = pos
+	var result = space_state.intersect_point(query,5)
+	#result gibt mir die Area3D, daher brauch ich den Parent
+	for res in result:
+		var collided_node = res.collider.get_parent() 
+		if collided_node is Connector && collided_node.state == Connector.States.PLACED:
+			return true
+	return false
+	
 func _collides_with_already_placed_objects(box) -> bool:
 	var space_state = get_world_3d().direct_space_state
 
@@ -85,7 +89,9 @@ func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 
 	collision_shape.shape = shape
 	collision_shape.disabled = true # Wird erst enabled, wenn Wall angewählt wird
-
+	
+	body.collision_layer = 1 << 1 #Layer 2
+	
 	body.add_child(collision_shape)
 	body.add_to_group(GHOST_GROUP)
 	

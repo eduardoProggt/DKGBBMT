@@ -2,34 +2,55 @@ class_name Utils
 
 static var material_manager : Material_Manager = Material_Manager.new()
 
-static func get_closest_node_to_mouse_ray(viewport: Viewport, nodes):
+static func get_closest_node_to_mouse_ray(viewport: Viewport, nodes, last_spawned):
 
 	var camera := viewport.get_camera_3d()
 	var mouse_pos := viewport.get_mouse_position()
 	var ray_origin := camera.project_ray_origin(mouse_pos)
 	var ray_dir := camera.project_ray_normal(mouse_pos)
 
-	var plane_y = nodes[0].transform.origin.y
+	var plane_y = get_center(last_spawned).y 
 	var plane := Plane(Vector3.UP, plane_y)
-	var intersection = plane.intersects_ray(ray_origin, ray_dir)
+	var intersection : Vector3 = plane.intersects_ray(ray_origin, ray_dir)
 	if intersection == null:
 		return null
 	
-	#Auf Grid diskretisieren, da es sonst du seltsamen Artefakten kommt
-	var intersection_xz := Vector2(snapped(intersection.x, 1), snapped(intersection.z, 1))
+	if intersection.distance_to(get_center(last_spawned)) < 0.5:
+		return last_spawned
+	
+	var closest := INF
+	
+	var candidate : Connector
+	
+	for connector : Connector in nodes:
+		
+		var dist = manhattan(intersection, get_center(connector))
+		
+		if dist < closest:
+			closest = dist
+			candidate = connector
+	
+	return candidate
+	
 
-	var closest_node : Node3D = null
-	var min_distance := 99999999999
-
-	var distance
-	for node in nodes:
-		var node_pos_xz := Vector2(node.global_transform.origin.x, node.global_transform.origin.z)
-		distance = node_pos_xz.distance_to(intersection_xz)
-
-		if distance < min_distance:
-			min_distance = distance
-			closest_node = node
-	return closest_node
+static func manhattan(a : Vector3, b : Vector3) -> float:
+	return abs(a.x - b.x) + abs(a.y - b.y) + abs(a.z - b.z)
+	
+static func move_debug_sphere_red(pos : Vector3, tree : SceneTree):
+	var sphere = tree.get_current_scene().find_child("DebugSphereRed")
+	sphere.global_transform.origin = pos
+	print("red: ", pos)
+	
+static func move_debug_sphere_yellow(pos : Vector3, tree : SceneTree):
+	var sphere = tree.get_current_scene().find_child("DebugSphereYellow")
+	sphere.global_transform.origin = pos
+	print("yellow: ", pos)
+	
+static func get_center(obj):
+	var area : Area3D = obj.find_child("Area3D")
+	var coll : CollisionShape3D = area.find_child("CollisionShape3D")
+	return coll.global_transform.origin
+	
 
 ## Erweiterung von "range" um absteigende Werte und gleitkommawerte
 ## Für for-Schleifen

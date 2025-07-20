@@ -51,6 +51,7 @@ func rotate_90_degrees():
 func switch_indicator(indicator: Node3D):
 	ensure_is_a_placable(indicator)
 	enable_disable_hitboxes(indicator)
+
 	if tile_indicator:  # Falls vorher ein Indicator existierte, altes Signal trennen
 		var old_area = tile_indicator.find_child("Area3D")
 		if old_area:
@@ -65,13 +66,13 @@ func switch_indicator(indicator: Node3D):
 		area.area_entered.connect(_on_body_entered)
 		area.area_exited.connect(_on_body_exited)
 	collisions = 0
-
-func enable_disable_hitboxes(node : Node3D):
 	
+func enable_disable_hitboxes(node : Node3D):
 	for i in Manager.ghost_groups:
 		if node is Placable_Node3D:
 			var is_chosen_group = i == node._group_name
 			set_group_collision(i, is_chosen_group)
+
 		else:
 			set_group_collision(i, false)
 

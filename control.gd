@@ -30,4 +30,3 @@ func _button_pressed(button):
 		return
 	var chosen_asset = buttonToAsset[button.name]
 	Manager.set_current_ghost_tile(chosen_asset)
-	print(chosen_asset.path)

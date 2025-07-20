@@ -14,13 +14,14 @@ func _init():
 
 func display(result: Dictionary):
 	if result.collider.is_in_group(_group_name):
+		
 					
 		#Setze Connector in die BB des Colliders
 		var collision_shape = Utils.get_only_child(result.collider)
 		transform.origin = collision_shape.global_transform.origin + Vector3(-1,-1,1)/2; #Woher dieser Offset!?
 		
 	if(!ghost_tiles.is_empty()):# Sinngleich mit MouseDown
-		#var clostest = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
+		visible = false
 
 		for tile in ghost_tiles:
 			tile.set_state(States.GHOST)
@@ -29,8 +30,10 @@ func display(result: Dictionary):
 		
 		for valid_tile in all_preview_tiles:	
 			valid_tile.set_state(States.PREVIEW)
+		return
 		
 	visible = true
+	
 
 func set_state(newState : States):
 	
@@ -89,7 +92,7 @@ func get_center() -> Vector3:
 #Vom Ghost-Kreuz werden die gewählt, zwischen Buttomdown und buttomup, um diesen zieh-effekt zu bekommen
 func _get_all_preview_tiles():
 	var first = last_spawned
-	var last = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles)
+	var last = Utils.get_closest_node_to_mouse_ray(get_viewport(),ghost_tiles,last_spawned)
 	
 	var preview_tiles = []
 	
@@ -114,23 +117,26 @@ func instantiate_ghost_connectors(add_to_scene) -> Node3D:
 	
 	var container := Node3D.new()
 	
-	for i in range(-12, 13):
-		if i == 0:
-			continue
-		var new_tile_x = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
-		
-		if new_tile_x != null:
-			new_tile_x.transform.origin = transform.origin + Vector3(i,0,0)
-			container.add_child(new_tile_x)
-			new_tile_x.set_state(States.GHOST)
-			ghost_tiles.append(new_tile_x)
-		
-		var new_tile_z = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
-		
-		if new_tile_z != null:
-			new_tile_z.transform.origin = transform.origin + Vector3(0,0,i)
-			container.add_child(new_tile_z)
-			new_tile_z.set_state(States.GHOST)
-			ghost_tiles.append(new_tile_z)
+	for i in range(1, 13):
+		_inst_connector(container, i)
+	for i in range(-12, 0):
+		_inst_connector(container, i)
 	
 	return container
+func _inst_connector(container, i):
+	
+	var new_tile_x = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
+	
+	if new_tile_x != null:
+		new_tile_x.transform.origin = transform.origin + Vector3(i,0,0)
+		container.add_child(new_tile_x)
+		new_tile_x.set_state(States.GHOST)
+		ghost_tiles.append(new_tile_x)
+	
+	var new_tile_z = duplicate(DuplicateFlags.DUPLICATE_USE_INSTANTIATION)
+	
+	if new_tile_z != null:
+		new_tile_z.transform.origin = transform.origin + Vector3(0,0,i)
+		container.add_child(new_tile_z)
+		new_tile_z.set_state(States.GHOST)
+		ghost_tiles.append(new_tile_z)
