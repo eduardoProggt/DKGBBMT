@@ -15,7 +15,6 @@ func _init():
 func display(result: Dictionary):
 	if result.collider.is_in_group(_group_name):
 		
-					
 		#Setze Connector in die BB des Colliders
 		var collision_shape = Utils.get_only_child(result.collider)
 		transform.origin = collision_shape.global_transform.origin + Vector3(-1,-1,1)/2; #Woher dieser Offset!?

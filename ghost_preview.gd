@@ -81,9 +81,36 @@ func enable_disable_hitboxes(node : Node3D):
 func set_group_collision(group_name: String, enabled: bool):
 	var nodes_in_group = get_tree().get_nodes_in_group(group_name)
 	for obj in nodes_in_group:
+		
 		if obj is StaticBody3D:
 			for child in obj.get_children():
 				child.disabled = !enabled
+				if enabled:
+					check_if_still_valid(child)
+					
+func check_if_still_valid(child : CollisionShape3D):
+	_delete_shape_if_colliding(child)
+
+func _create_ghost_query(collision_shape) -> PhysicsShapeQueryParameters3D:
+	var query = PhysicsShapeQueryParameters3D.new()
+	query.shape = collision_shape.shape
+	query.margin = - 0.01
+	query.transform = collision_shape.global_transform
+	query.collide_with_areas = true
+	query.collision_mask = 0b01 # Kollidiert mit 2
+	return query
+	
+func _delete_shape_if_colliding(collision_shape):
+	var space_state = get_world_3d().direct_space_state
+	var query = _create_ghost_query(collision_shape)
+	
+	# Da immer nur 32 gehen: So lange intersections abräumen, bis keine mehr da sind
+	var results = space_state.intersect_shape(query, 1)
+	if results.is_empty():
+		return
+	collision_shape.disabled = true
+	collision_shape.queue_free()
+
 
 ## Workaround für ein Placable-Interface an den Asset - Objekten
 func ensure_is_a_placable(node: Node3D):

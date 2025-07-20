@@ -85,7 +85,8 @@ func _delete_colliding_shapes(new_tile):
 			if obj.is_in_group(_group_name):
 				_disable_collision(obj)
 				obj.queue_free()
-				
+
+#TODO: Utils				
 func _disable_collision(static_body : StaticBody3D):
 	for child in static_body.get_children():
 		if child is CollisionShape3D:

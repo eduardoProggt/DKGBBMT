@@ -21,7 +21,6 @@ func finish_spawning():
 	pass
 
 func spawn_gost(node: Connector):
-
 	# All die Punkte, wenn dort ein Connector wäre, würde eine ghost Wall spawnen
 	# (Oben unten links rechts)
 	var relevant_points = [
@@ -31,7 +30,6 @@ func spawn_gost(node: Connector):
 		node.get_center() + Vector3(0,0,-5)
 	]
 	
-
 	for pos in relevant_points:
 		if _has_connector(pos):
 			var box = create_box_between_points(node.global_position,pos+Vector3(-0.5,-0.5,0.5))#res.collider.get_parent().global_position)
@@ -90,7 +88,7 @@ func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 	collision_shape.shape = shape
 	collision_shape.disabled = true # Wird erst enabled, wenn Wall angewählt wird
 	
-	body.collision_layer = 1 << 1 #Layer 2
+	body.collision_layer = 0b10 #Ghost-ebene
 	
 	body.add_child(collision_shape)
 	body.add_to_group(GHOST_GROUP)
