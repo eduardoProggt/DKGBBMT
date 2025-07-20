@@ -30,8 +30,8 @@ func _get_intersecting_ghosts(collision_point : Vector3) -> Array:
 	# um nicht nur das erste sondern mehrere Results zu bekommen, 
 	# spawnen wir eine Kugel am einschlagspunkt und intersecten nochmal.
 	collision_sphere.global_transform = Transform3D(Basis(), collision_point)
-	var colliding_objects = []
-	_foreach_colliding_ghosts(collision_sphere, func(o): colliding_objects.append(o))
+
+	var colliding_objects = _find_colliding_ghosts(collision_sphere)
 	
 	return colliding_objects
 
@@ -60,24 +60,50 @@ func spawn(add_to_scene: Callable):
 	add_to_scene.call(new_tile)
 	
 	_delete_colliding_shapes(new_tile)
+
+# generiert PhysicsShapeQueryParameters3D Query gegen alle Elemente, die auf Ghost-Ebene (2) liegen
+func _create_ghost_query(collision_shape) -> PhysicsShapeQueryParameters3D:
+	var query = PhysicsShapeQueryParameters3D.new()
+	query.shape = collision_shape.shape
+	query.margin = - 0.01
+	query.transform = collision_shape.global_transform
+	query.collision_mask = 1<<1
+	return query
 	
 func _delete_colliding_shapes(new_tile):
 	var collision_shape = new_tile.find_child("CollisionShape3D")
-	_foreach_colliding_ghosts(collision_shape, func(n): n.queue_free())
+	var space_state = get_world_3d().direct_space_state
+	var query = _create_ghost_query(collision_shape)
 	
-
+	while true:
+		# Da immer nur 32 gehen: So lange intersections abräumen, bis keine mehr da sind
+		var results = space_state.intersect_shape(query, 32)
+		if results.is_empty():
+			break
+		for res in results:
+			var obj: StaticBody3D = res.collider
+			if obj.is_in_group(_group_name):
+				_disable_collision(obj)
+				obj.queue_free()
+				
+func _disable_collision(static_body : StaticBody3D):
+	for child in static_body.get_children():
+		if child is CollisionShape3D:
+			child.disabled = true
+			
 func _snap_to_ghost(_collision_shape : CollisionShape3D):
 	assert(false)
 	# ABSTRACT
-
-func _foreach_colliding_ghosts(node : CollisionShape3D, process : Callable):
-	var query = PhysicsShapeQueryParameters3D.new()
-	query.shape = node.shape
-	query.margin = - 0.01
-	query.transform = node.global_transform
+	
+func _find_colliding_ghosts(node : CollisionShape3D):
+	var query = _create_ghost_query(node)
 	var space_state = get_world_3d().direct_space_state
+	
 	var results = space_state.intersect_shape(query, 32)
+	var result = []
+	
 	for res in results:
 		var obj: Node = res.collider
-		if obj.is_in_group(_group_name): 
-			process.call(obj)
+		if obj.is_in_group(_group_name):
+			result.append(obj)
+	return result
