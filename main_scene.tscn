@@ -23,7 +23,8 @@ material = SubResource("StandardMaterial3D_bbsfd")
 size = Vector3(200, 1, 200)
 
 [sub_resource type="LabelSettings" id="LabelSettings_owe14"]
-font_color = Color(1, 0, 0, 1)
+font_size = 30
+font_color = Color(0, 0, 0, 1)
 
 [node name="MainScene" type="Node3D"]
 script = ExtResource("1_6wwel")
@@ -69,14 +70,23 @@ anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -192.0
-offset_bottom = 211.0
+offset_bottom = 266.0
 grow_horizontal = 0
 script = ExtResource("5_1eqg5")
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 2
+offset_left = -163.0
+offset_top = -4.0
+offset_right = 70.0
+offset_bottom = 55.0
+text = "Alpha 0.1.0"
+label_settings = SubResource("LabelSettings_owe14")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 0
 offset_right = 190.0
-offset_bottom = 212.0
+offset_bottom = 264.0
 
 [node name="Panel" type="Panel" parent="Control/MarginContainer"]
 layout_mode = 2
@@ -113,8 +123,3 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Löschen
 "
-
-[node name="Label" type="Label" parent="Control/MarginContainer/Panel/VBoxContainer"]
-layout_mode = 2
-text = "Test"
-label_settings = SubResource("LabelSettings_owe14")
