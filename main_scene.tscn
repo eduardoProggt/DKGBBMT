@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c1u4bsknam34t"]
+[gd_scene load_steps=13 format=3 uid="uid://c1u4bsknam34t"]
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_83ax7"]
@@ -18,6 +18,9 @@ albedo_texture = ExtResource("2_ew3ln")
 
 [sub_resource type="BoxMesh" id="BoxMesh_g50af"]
 material = SubResource("StandardMaterial3D_bbsfd")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fpq7b"]
+size = Vector3(200, 1, 200)
 
 [sub_resource type="LabelSettings" id="LabelSettings_owe14"]
 font_color = Color(1, 0, 0, 1)
@@ -53,6 +56,12 @@ transform = Transform3D(200, 0, 0, 0, 1, 0, 0, 0, 200, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_6vypv")
 mesh = SubResource("BoxMesh_g50af")
 skeleton = NodePath("../..")
+
+[node name="BelowGroundArea3D" type="Area3D" parent="FlatGround"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FlatGround/BelowGroundArea3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+shape = SubResource("BoxShape3D_fpq7b")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
