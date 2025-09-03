@@ -80,7 +80,7 @@ offset_left = -163.0
 offset_top = -4.0
 offset_right = 70.0
 offset_bottom = 55.0
-text = "Alpha 0.1.0"
+text = "Alpha 0.2.0"
 label_settings = SubResource("LabelSettings_owe14")
 
 [node name="MarginContainer" type="MarginContainer" parent="Control"]

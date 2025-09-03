@@ -8,7 +8,9 @@ func _ready():
 	# TODO: geschmeidigere Lösung überlegen
 	Manager.add_assets(add_child);
 	ghost_preview = find_child("GhostPreview")
-	set_indicator(Manager.BODENPLATTE.instance)
+	var initial_inticator = Manager.BODENPLATTE.instance
+	Utils.set_color(initial_inticator, Color(1, 1, 1))
+	set_indicator(initial_inticator)
 	
 func _process(_delta):
 	var result = _compute_mouse_intersection()
