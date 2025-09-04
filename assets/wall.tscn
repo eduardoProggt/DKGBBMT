@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bkkxluemb0hhe"]
 
-[ext_resource type="ArrayMesh" uid="uid://iow6i081nk8k" path="res://objects/Wand_Ohne_Fenster.obj" id="1_b5knq"]
 [ext_resource type="Script" path="res://assets/wall.gd" id="1_wfms0"]
+[ext_resource type="ArrayMesh" uid="uid://difyctdn18vhk" path="res://objects/Wand_Mit_Fenster.obj" id="2_tx118"]
 [ext_resource type="Script" path="res://assets/connector_regions.gd" id="3_reapv"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_jnqta"]
@@ -24,7 +24,7 @@ shape = SubResource("BoxShape3D_jnqta")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
 material_override = SubResource("StandardMaterial3D_fncbv")
-mesh = ExtResource("1_b5knq")
+mesh = ExtResource("2_tx118")
 
 [node name="ConnectorRegions" type="Node3D" parent="."]
 script = ExtResource("3_reapv")
