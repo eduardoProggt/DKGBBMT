@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://c1u4bsknam34t"]
+[gd_scene load_steps=17 format=3 uid="uid://c1u4bsknam34t"]
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_83ax7"]
@@ -6,6 +6,9 @@
 [ext_resource type="Script" path="res://ghost_preview.gd" id="2_jwfvs"]
 [ext_resource type="Script" path="res://control.gd" id="5_1eqg5"]
 [ext_resource type="Script" path="res://manager.gd" id="6_gel6t"]
+[ext_resource type="Texture2D" uid="uid://bul2rn4wk1kkt" path="res://textures/Balkontuer.png" id="7_bndut"]
+[ext_resource type="Texture2D" uid="uid://cs2iif735lqqi" path="res://textures/Wand.png" id="8_ch8yc"]
+[ext_resource type="Texture2D" uid="uid://brbac5narnppu" path="res://textures/Fenster.png" id="9_7eiom"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ft0it"]
 size = Vector3(200, 1, 200)
@@ -21,6 +24,18 @@ material = SubResource("StandardMaterial3D_bbsfd")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_fpq7b"]
 size = Vector3(200, 1, 200)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hs6gw"]
+bg_color = Color(0.219501, 0.219501, 0.219501, 0.658824)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.205118, 0.205117, 0.205117, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_owe14"]
 font_size = 30
@@ -69,57 +84,105 @@ layout_mode = 3
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -192.0
+offset_left = -460.0
 offset_bottom = 266.0
 grow_horizontal = 0
 script = ExtResource("5_1eqg5")
 
-[node name="Label" type="Label" parent="Control"]
-layout_mode = 2
-offset_left = -163.0
-offset_top = -4.0
-offset_right = 70.0
-offset_bottom = 55.0
-text = "Alpha 0.2.0"
-label_settings = SubResource("LabelSettings_owe14")
-
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
+[node name="BackgroundPanel" type="Panel" parent="Control"]
 layout_mode = 0
-offset_right = 190.0
+offset_left = 55.0
+offset_top = 1.0
+offset_right = 460.0
+offset_bottom = 275.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_hs6gw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/BackgroundPanel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 9.0
+offset_right = 138.0
 offset_bottom = 264.0
+theme_override_constants/separation = 1
 
-[node name="Panel" type="Panel" parent="Control/MarginContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer/Panel"]
-layout_mode = 0
-offset_right = 192.0
-offset_bottom = 162.0
-
-[node name="Button1" type="Button" parent="Control/MarginContainer/Panel/VBoxContainer"]
+[node name="Button1" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0.07, 50)
 layout_mode = 2
 text = "Bodenplatte
 "
 
-[node name="Button2" type="Button" parent="Control/MarginContainer/Panel/VBoxContainer"]
+[node name="Button2" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Connector
 "
 
-[node name="Button3" type="Button" parent="Control/MarginContainer/Panel/VBoxContainer"]
+[node name="Button3" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Wand"
 
-[node name="Button4" type="Button" parent="Control/MarginContainer/Panel/VBoxContainer"]
+[node name="Button4" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Dach"
 
-[node name="Button5" type="Button" parent="Control/MarginContainer/Panel/VBoxContainer"]
+[node name="Button5" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Löschen
 "
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+offset_left = 211.0
+offset_top = 46.0
+offset_right = 447.0
+offset_bottom = 174.0
+vertical_scroll_mode = 0
+
+[node name="HBoxWandplatten" type="HBoxContainer" parent="Control/ScrollContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="TextureTuer" type="TextureRect" parent="Control/ScrollContainer/HBoxWandplatten"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("7_bndut")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="TextureWand" type="TextureRect" parent="Control/ScrollContainer/HBoxWandplatten"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("8_ch8yc")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="TextureFenster" type="TextureRect" parent="Control/ScrollContainer/HBoxWandplatten"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("9_7eiom")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 2
+offset_left = -105.0
+offset_top = -1.0
+offset_right = 57.0
+offset_bottom = 58.0
+text = "Alpha 0.2.0"
+label_settings = SubResource("LabelSettings_owe14")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 76.0
+offset_top = -1.0
+offset_right = 200.0
+offset_bottom = 269.0
+
+[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+layout_mode = 2

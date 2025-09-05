@@ -18,9 +18,9 @@ func _input(event):
 			is_panning = event.pressed  
 			last_mouse_pos = event.position  
 
-		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
+		elif event.button_index == MOUSE_BUTTON_WHEEL_UP && !Manager.is_mouse_over_menu():
 			_zoom(zoom_speed)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN && !Manager.is_mouse_over_menu():
 			_zoom(-zoom_speed)
 
 	elif event is InputEventMouseMotion and is_panning:
