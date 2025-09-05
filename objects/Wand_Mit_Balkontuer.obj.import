@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b2r0gj2246q6u"
+path="res://.godot/imported/Wand_Mit_Balkontuer.obj-c8c55983f2d5485b1288832f6a84cc86.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Wand_Mit_Balkontuer.obj-c8c55983f2d5485b1288832f6a84cc86.mesh"]
+
+source_file="res://objects/Wand_Mit_Balkontuer.obj"
+dest_files=["res://.godot/imported/Wand_Mit_Balkontuer.obj-c8c55983f2d5485b1288832f6a84cc86.mesh", "res://.godot/imported/Wand_Mit_Balkontuer.obj-c8c55983f2d5485b1288832f6a84cc86.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
