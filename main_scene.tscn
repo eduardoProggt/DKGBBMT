@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c1u4bsknam34t"]
+[gd_scene load_steps=18 format=3 uid="uid://c1u4bsknam34t"]
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_83ax7"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bul2rn4wk1kkt" path="res://textures/Balkontuer.png" id="7_bndut"]
 [ext_resource type="Texture2D" uid="uid://cs2iif735lqqi" path="res://textures/Wand.png" id="8_ch8yc"]
 [ext_resource type="Texture2D" uid="uid://brbac5narnppu" path="res://textures/Fenster.png" id="9_7eiom"]
+[ext_resource type="Texture2D" uid="uid://cssv1is6ksqna" path="res://textures/Tuer.png" id="10_cgi4d"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ft0it"]
 size = Vector3(200, 1, 200)
@@ -134,6 +135,7 @@ text = "Löschen
 "
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Control"]
+visible = false
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 offset_left = 211.0
@@ -145,6 +147,7 @@ vertical_scroll_mode = 0
 [node name="HBoxWandplatten" type="HBoxContainer" parent="Control/ScrollContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
+theme_override_constants/separation = 5
 
 [node name="TextureTuer" type="TextureRect" parent="Control/ScrollContainer/HBoxWandplatten"]
 custom_minimum_size = Vector2(128, 128)
@@ -176,13 +179,46 @@ offset_bottom = 58.0
 text = "Alpha 0.2.0"
 label_settings = SubResource("LabelSettings_owe14")
 
-[node name="MarginContainer" type="MarginContainer" parent="Control"]
-visible = false
+[node name="BoxContainer" type="BoxContainer" parent="Control"]
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 0
-offset_left = 76.0
-offset_top = -1.0
-offset_right = 200.0
-offset_bottom = 269.0
+offset_left = 205.0
+offset_top = 10.0
+offset_right = 450.0
+offset_bottom = 263.0
 
-[node name="Panel" type="Panel" parent="Control/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="Control"]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 6.0
+offset_right = 458.0
+offset_bottom = 269.0
+columns = 2
+
+[node name="TextureBalkTuer" type="TextureRect" parent="Control/GridContainer"]
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
+texture = ExtResource("7_bndut")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="TextureWand" type="TextureRect" parent="Control/GridContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("8_ch8yc")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="TextureFenster" type="TextureRect" parent="Control/GridContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("9_7eiom")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="TextureTuer" type="TextureRect" parent="Control/GridContainer"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+texture = ExtResource("10_cgi4d")
+expand_mode = 4
+stretch_mode = 5
