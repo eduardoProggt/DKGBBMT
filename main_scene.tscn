@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c1u4bsknam34t"]
+[gd_scene load_steps=24 format=3 uid="uid://c1u4bsknam34t"]
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_83ax7"]
@@ -6,10 +6,16 @@
 [ext_resource type="Script" path="res://ghost_preview.gd" id="2_jwfvs"]
 [ext_resource type="Script" path="res://control.gd" id="5_1eqg5"]
 [ext_resource type="Script" path="res://manager.gd" id="6_gel6t"]
-[ext_resource type="Texture2D" uid="uid://bul2rn4wk1kkt" path="res://textures/Balkontuer.png" id="7_bndut"]
-[ext_resource type="Texture2D" uid="uid://cs2iif735lqqi" path="res://textures/Wand.png" id="8_ch8yc"]
-[ext_resource type="Texture2D" uid="uid://brbac5narnppu" path="res://textures/Fenster.png" id="9_7eiom"]
-[ext_resource type="Texture2D" uid="uid://cssv1is6ksqna" path="res://textures/Tuer.png" id="10_cgi4d"]
+[ext_resource type="Texture2D" uid="uid://bul2rn4wk1kkt" path="res://textures/Menu/Balkontuer.png" id="7_bndut"]
+[ext_resource type="Script" path="res://Plates.gd" id="7_d0f7b"]
+[ext_resource type="Script" path="res://Connector.gd" id="8_6htl2"]
+[ext_resource type="Texture2D" uid="uid://cs2iif735lqqi" path="res://textures/Menu/Wand.png" id="8_ch8yc"]
+[ext_resource type="Texture2D" uid="uid://brbac5narnppu" path="res://textures/Menu/Fenster.png" id="9_7eiom"]
+[ext_resource type="Script" path="res://Walls.gd" id="9_glc3s"]
+[ext_resource type="Texture2D" uid="uid://cssv1is6ksqna" path="res://textures/Menu/Tuer.png" id="10_cgi4d"]
+[ext_resource type="Texture2D" uid="uid://pruod3g7hxwi" path="res://textures/Menu/Dach.png" id="12_eowu6"]
+[ext_resource type="Texture2D" uid="uid://cce304pmhcrf6" path="res://textures/Menu/Zwischenplatte.png" id="13_e1iwj"]
+[ext_resource type="Texture2D" uid="uid://2sh08npnemj4" path="res://textures/Menu/Bodenplatte.png" id="14_8meh5"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ft0it"]
 size = Vector3(200, 1, 200)
@@ -104,31 +110,35 @@ offset_left = 24.0
 offset_top = 9.0
 offset_right = 138.0
 offset_bottom = 264.0
-theme_override_constants/separation = 1
+theme_override_constants/separation = 17
 
-[node name="Button1" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
+[node name="Plates" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0.07, 50)
 layout_mode = 2
-text = "Bodenplatte
+text = "Platten
 "
+script = ExtResource("7_d0f7b")
 
-[node name="Button2" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
+[node name="Connector" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Connector
 "
+script = ExtResource("8_6htl2")
 
-[node name="Button3" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
+[node name="Walls" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "Wand"
+text = "Wände"
+script = ExtResource("9_glc3s")
 
 [node name="Button4" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-text = "Dach"
+text = "DEPRECATED"
 
-[node name="Button5" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
+[node name="Delete" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 text = "Löschen
@@ -187,7 +197,8 @@ offset_top = 10.0
 offset_right = 450.0
 offset_bottom = 263.0
 
-[node name="GridContainer" type="GridContainer" parent="Control"]
+[node name="WaendeContainer" type="GridContainer" parent="Control"]
+visible = false
 layout_mode = 0
 offset_left = 198.0
 offset_top = 6.0
@@ -195,30 +206,59 @@ offset_right = 458.0
 offset_bottom = 269.0
 columns = 2
 
-[node name="TextureBalkTuer" type="TextureRect" parent="Control/GridContainer"]
+[node name="TextureBalkTuer" type="TextureRect" parent="Control/WaendeContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("7_bndut")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="TextureWand" type="TextureRect" parent="Control/GridContainer"]
+[node name="TextureWand" type="TextureRect" parent="Control/WaendeContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("8_ch8yc")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="TextureFenster" type="TextureRect" parent="Control/GridContainer"]
+[node name="TextureFenster" type="TextureRect" parent="Control/WaendeContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("9_7eiom")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="TextureTuer" type="TextureRect" parent="Control/GridContainer"]
+[node name="TextureTuer" type="TextureRect" parent="Control/WaendeContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 texture = ExtResource("10_cgi4d")
 expand_mode = 4
 stretch_mode = 5
+
+[node name="PlateContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 8.0
+offset_right = 451.0
+offset_bottom = 268.0
+theme_override_constants/separation = 12
+
+[node name="TextureRoof" type="TextureRect" parent="Control/PlateContainer"]
+custom_minimum_size = Vector2(128, 80)
+layout_mode = 2
+texture = ExtResource("12_eowu6")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureIntermediate" type="TextureRect" parent="Control/PlateContainer"]
+custom_minimum_size = Vector2(128, 80)
+layout_mode = 2
+texture = ExtResource("13_e1iwj")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureBaseplate" type="TextureRect" parent="Control/PlateContainer"]
+custom_minimum_size = Vector2(128, 80)
+layout_mode = 2
+texture = ExtResource("14_8meh5")
+expand_mode = 1
+stretch_mode = 4

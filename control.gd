@@ -25,8 +25,10 @@ func get_all_buttons(node: Node) -> Array:
 	return result
 
 func _button_pressed(button):
-	if !button.name in buttonToAsset :
-		print(button.name + " nicht belegt")
-		return
-	var chosen_asset = buttonToAsset[button.name]
-	Manager.set_current_ghost_tile(chosen_asset)
+	_unshow_all_containers()
+	button.press(self)
+
+func _unshow_all_containers():
+	for child in get_children():
+		if child.is_class("Container"):
+			child.visible = false

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cssv1is6ksqna"
-path="res://.godot/imported/Tuer.png-81b275b727e47a9887dd8c87aaf9ce36.ctex"
+uid="uid://cs2iif735lqqi"
+path="res://.godot/imported/Wand.png-d20e7117991050db024bbaf1041330e6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/Tuer.png"
-dest_files=["res://.godot/imported/Tuer.png-81b275b727e47a9887dd8c87aaf9ce36.ctex"]
+source_file="res://textures/Menu/Wand.png"
+dest_files=["res://.godot/imported/Wand.png-d20e7117991050db024bbaf1041330e6.ctex"]
 
 [params]
 
