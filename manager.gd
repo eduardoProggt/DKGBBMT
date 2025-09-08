@@ -33,7 +33,8 @@ func is_mouse_over_menu():
 
 func set_current_ghost_tile(tile: Asset):
 	var main_scene = nodes["MainScene"]
-	main_scene.set_indicator(tile.instance)
+	var instance = tile.instance
+	main_scene.set_indicator(instance)
 
 # Gibt alle Assets raus, die AUF Conneectoren gesetzt verden können
 func get_connectables():

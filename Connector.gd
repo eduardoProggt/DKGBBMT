@@ -1,5 +1,5 @@
 extends Button
 
-func press(controlPanel : Control):
+func activate(controlPanel : Control):
 	#Fürs erste.
 	Manager.set_current_ghost_tile(Manager.CONNECTOR)

@@ -61,7 +61,6 @@ func switch_indicator(indicator: Node3D):
 		tile_indicator.global_transform.origin = Vector3(0, -100, 0)
 
 	tile_indicator = indicator
-	#add_child(tile_indicator)
 
 	var area = tile_indicator.find_child("Area3D")
 	if area:
@@ -120,3 +119,7 @@ func ensure_is_a_placable(node: Node3D):
 
 func can_spawn():
 	return collisions == 0
+	
+func change_mesh(another_mesh : Mesh):
+	var mesh_inst : MeshInstance3D = tile_indicator.find_child("MeshInstance3D")
+	mesh_inst.mesh = another_mesh

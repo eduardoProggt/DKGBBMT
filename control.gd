@@ -26,7 +26,7 @@ func get_all_buttons(node: Node) -> Array:
 
 func _button_pressed(button):
 	_unshow_all_containers()
-	button.press(self)
+	button.activate(self)
 
 func _unshow_all_containers():
 	for child in get_children():

@@ -7,7 +7,6 @@ const GHOST_GROUP = "Wall_Ghost"
 func _init():
 	super(GHOST_GROUP)
 
-
 func _snap_to_ghost(collision_shape : CollisionShape3D):
 	
 	if collision_shape.get_parent().rotation.y != 0:

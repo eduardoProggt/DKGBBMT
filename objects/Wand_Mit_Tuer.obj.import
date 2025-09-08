@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bpd6lam51o363"
+path="res://.godot/imported/Wand_Mit_Tuer.obj-e5013a001d5c426550c39a738b8a780e.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Wand_Mit_Tuer.obj-e5013a001d5c426550c39a738b8a780e.mesh"]
+
+source_file="res://objects/Wand_Mit_Tuer.obj"
+dest_files=["res://.godot/imported/Wand_Mit_Tuer.obj-e5013a001d5c426550c39a738b8a780e.mesh", "res://.godot/imported/Wand_Mit_Tuer.obj-e5013a001d5c426550c39a738b8a780e.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

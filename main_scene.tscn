@@ -206,33 +206,37 @@ offset_right = 458.0
 offset_bottom = 269.0
 columns = 2
 
-[node name="TextureBalkTuer" type="TextureRect" parent="Control/WaendeContainer"]
+[node name="TextureButtonWall" type="TextureButton" parent="Control/WaendeContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-texture = ExtResource("7_bndut")
-expand_mode = 4
+texture_normal = ExtResource("8_ch8yc")
+ignore_texture_size = true
 stretch_mode = 5
+metadata/obj_bind = "res://objects/Wand_Ohne_Fenster.obj"
 
-[node name="TextureWand" type="TextureRect" parent="Control/WaendeContainer"]
+[node name="TextureButtonWindow" type="TextureButton" parent="Control/WaendeContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-texture = ExtResource("8_ch8yc")
-expand_mode = 4
+texture_normal = ExtResource("9_7eiom")
+ignore_texture_size = true
 stretch_mode = 5
+metadata/obj_bind = "res://objects/Wand_Mit_Fenster.obj"
 
-[node name="TextureFenster" type="TextureRect" parent="Control/WaendeContainer"]
+[node name="TextureButtonBalcony" type="TextureButton" parent="Control/WaendeContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-texture = ExtResource("9_7eiom")
-expand_mode = 4
+texture_normal = ExtResource("7_bndut")
+ignore_texture_size = true
 stretch_mode = 5
+metadata/obj_bind = "res://objects/Wand_Mit_Balkontuer.obj"
 
-[node name="TextureTuer" type="TextureRect" parent="Control/WaendeContainer"]
+[node name="TextureButtonDoor" type="TextureButton" parent="Control/WaendeContainer"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-texture = ExtResource("10_cgi4d")
-expand_mode = 4
+texture_normal = ExtResource("10_cgi4d")
+ignore_texture_size = true
 stretch_mode = 5
+metadata/obj_bind = "res://objects/Wand_Mit_Tuer.obj"
 
 [node name="PlateContainer" type="VBoxContainer" parent="Control"]
 layout_mode = 0
