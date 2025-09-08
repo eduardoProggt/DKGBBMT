@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://c1u4bsknam34t"]
+[gd_scene load_steps=26 format=3 uid="uid://c1u4bsknam34t"]
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_83ax7"]
@@ -16,6 +16,8 @@
 [ext_resource type="Texture2D" uid="uid://pruod3g7hxwi" path="res://textures/Menu/Dach.png" id="12_eowu6"]
 [ext_resource type="Texture2D" uid="uid://cce304pmhcrf6" path="res://textures/Menu/Zwischenplatte.png" id="13_e1iwj"]
 [ext_resource type="Texture2D" uid="uid://2sh08npnemj4" path="res://textures/Menu/Bodenplatte.png" id="14_8meh5"]
+[ext_resource type="StyleBox" uid="uid://b16f10hedpu6w" path="res://styles/tile_selection_button_pressed.tres" id="14_w8sjo"]
+[ext_resource type="StyleBox" uid="uid://03htgbhvnkci" path="res://styles/tile_selection_button_focus.tres" id="15_p5ox7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ft0it"]
 size = Vector3(200, 1, 200)
@@ -236,6 +238,61 @@ layout_mode = 2
 texture_normal = ExtResource("10_cgi4d")
 ignore_texture_size = true
 stretch_mode = 5
+metadata/obj_bind = "res://objects/Wand_Mit_Tuer.obj"
+
+[node name="WaendeContainer2" type="GridContainer" parent="Control"]
+visible = false
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 0
+offset_left = 199.0
+offset_top = 9.0
+offset_right = 1201.0
+offset_bottom = 1245.0
+columns = 2
+
+[node name="TextureButtonWall" type="Button" parent="Control/WaendeContainer2"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+theme_override_colors/icon_hover_color = Color(0.843137, 0.843137, 0.843137, 0.945098)
+theme_override_styles/pressed = ExtResource("14_w8sjo")
+theme_override_styles/focus = ExtResource("15_p5ox7")
+icon = ExtResource("8_ch8yc")
+flat = true
+expand_icon = true
+metadata/obj_bind = "res://objects/Wand_Ohne_Fenster.obj"
+
+[node name="TextureButtonWindow" type="Button" parent="Control/WaendeContainer2"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+theme_override_colors/icon_hover_color = Color(0.843137, 0.843137, 0.843137, 0.945098)
+theme_override_styles/pressed = ExtResource("14_w8sjo")
+theme_override_styles/focus = ExtResource("15_p5ox7")
+icon = ExtResource("9_7eiom")
+flat = true
+expand_icon = true
+metadata/obj_bind = "res://objects/Wand_Mit_Fenster.obj"
+
+[node name="TextureButtonBalcony" type="Button" parent="Control/WaendeContainer2"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+theme_override_colors/icon_hover_color = Color(0.843137, 0.843137, 0.843137, 0.945098)
+theme_override_styles/pressed = ExtResource("14_w8sjo")
+theme_override_styles/focus = ExtResource("15_p5ox7")
+icon = ExtResource("7_bndut")
+flat = true
+expand_icon = true
+metadata/obj_bind = "res://objects/Wand_Mit_Balkontuer.obj"
+
+[node name="TextureButtonDoor" type="Button" parent="Control/WaendeContainer2"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+theme_override_colors/icon_hover_color = Color(0.843137, 0.843137, 0.843137, 0.945098)
+theme_override_styles/pressed = ExtResource("14_w8sjo")
+theme_override_styles/focus = ExtResource("15_p5ox7")
+icon = ExtResource("10_cgi4d")
+flat = true
+icon_alignment = 1
+expand_icon = true
 metadata/obj_bind = "res://objects/Wand_Mit_Tuer.obj"
 
 [node name="PlateContainer" type="VBoxContainer" parent="Control"]

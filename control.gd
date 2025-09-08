@@ -10,7 +10,7 @@ var buttonToAsset = {
 
 func _ready():
 	Manager.register(self)
-	var buttons = get_all_buttons(self)
+	var buttons = get_all_buttons(find_child("VBoxContainer"))
 	for button in buttons:
 		button.pressed.connect(_button_pressed.bind(button))
 
@@ -24,7 +24,7 @@ func get_all_buttons(node: Node) -> Array:
 	
 	return result
 
-func _button_pressed(button):
+func _button_pressed(button : Button):
 	_unshow_all_containers()
 	button.activate(self)
 
