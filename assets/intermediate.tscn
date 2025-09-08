@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=3 uid="uid://ciw8a6ulny1b7"]
+
+[ext_resource type="Script" path="res://assets/dach.gd" id="1_gewsj"]
+[ext_resource type="ArrayMesh" uid="uid://dt7x7g8n8i0hx" path="res://objects/Zwischenplatte.obj" id="2_mwdy7"]
+[ext_resource type="Script" path="res://assets/connector_regions.gd" id="3_r54o2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_uejo2"]
+size = Vector3(12.99, 0.199, 5.99)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6gotj"]
+
+[node name="Dach" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -110, 0)
+script = ExtResource("1_gewsj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_mwdy7")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.1, -3)
+shape = SubResource("BoxShape3D_uejo2")
+
+[node name="ConnectorRegions" type="Node3D" parent="."]
+script = ExtResource("3_r54o2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ConnectorRegions" groups=["ConnectorGhost"]]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ConnectorRegions/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.7, -0.5)
+shape = SubResource("BoxShape3D_6gotj")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="ConnectorRegions" groups=["ConnectorGhost"]]
+collision_layer = 2
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="ConnectorRegions/StaticBody3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.7, -5.5)
+shape = SubResource("BoxShape3D_6gotj")
+
+[node name="StaticBody3D3" type="StaticBody3D" parent="ConnectorRegions" groups=["ConnectorGhost"]]
+collision_layer = 2
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="ConnectorRegions/StaticBody3D3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.7, -5.5)
+shape = SubResource("BoxShape3D_6gotj")
+
+[node name="StaticBody3D4" type="StaticBody3D" parent="ConnectorRegions" groups=["ConnectorGhost"]]
+collision_layer = 2
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="ConnectorRegions/StaticBody3D4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 0.7, -0.5)
+shape = SubResource("BoxShape3D_6gotj")
+
+[node name="StaticBody3D5" type="StaticBody3D" parent="ConnectorRegions" groups=["ConnectorGhost"]]
+collision_layer = 2
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="ConnectorRegions/StaticBody3D5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0.7, -0.5)
+shape = SubResource("BoxShape3D_6gotj")
+
+[node name="StaticBody3D6" type="StaticBody3D" parent="ConnectorRegions" groups=["ConnectorGhost"]]
+collision_layer = 2
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="ConnectorRegions/StaticBody3D6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.5, 0.7, -5.5)
+shape = SubResource("BoxShape3D_6gotj")
+
+[node name="StaticBody3D7" type="StaticBody3D" parent="ConnectorRegions" groups=["ConnectorGhost"]]
+collision_layer = 2
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="ConnectorRegions/StaticBody3D7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0.7, -5.5)
+shape = SubResource("BoxShape3D_6gotj")
+
+[node name="StaticBody3D8" type="StaticBody3D" parent="ConnectorRegions" groups=["ConnectorGhost"]]
+collision_layer = 2
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="ConnectorRegions/StaticBody3D8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5, 0.7, -0.5)
+shape = SubResource("BoxShape3D_6gotj")

@@ -2,18 +2,20 @@ extends Node
 
 var nodes: Dictionary = {}
 
-var BODENPLATTE = Asset.new("res://assets/bodenplatte.tscn")
 var CONNECTOR = Asset.new("res://assets/connector.tscn")
 var WAND = Asset.new("res://assets/wall.tscn")
+var BODENPLATTE = Asset.new("res://assets/bodenplatte.tscn")
+var INTERMEDIATE = Asset.new("res://assets/intermediate.tscn")
 var DACH = Asset.new("res://assets/dach.tscn")
 var HAMMER = Asset.new("res://assets/hammer.tscn")
 
 var ghost_groups = []
 
 func add_assets(add_node : Callable):
-	_add_asset(BODENPLATTE, add_node)
 	_add_asset(CONNECTOR, add_node)
 	_add_asset(WAND, add_node)
+	_add_asset(BODENPLATTE, add_node)
+	_add_asset(INTERMEDIATE, add_node)
 	_add_asset(DACH, add_node)
 
 	add_node.call(HAMMER.instance)
@@ -38,7 +40,7 @@ func set_current_ghost_tile(tile: Asset):
 
 # Gibt alle Assets raus, die AUF Conneectoren gesetzt verden können
 func get_connectables():
-	return [WAND, DACH]
+	return [WAND, INTERMEDIATE, DACH]
 
 class Asset:
 	var path: String

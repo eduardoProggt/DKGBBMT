@@ -13,6 +13,7 @@ func _ready():
 	var buttons = get_all_buttons(find_child("VBoxContainer"))
 	for button in buttons:
 		button.pressed.connect(_button_pressed.bind(button))
+	_activate_plates_panel()
 
 func get_all_buttons(node: Node) -> Array:
 	var result = []
@@ -32,3 +33,8 @@ func _unshow_all_containers():
 	for child in get_children():
 		if child.is_class("Container"):
 			child.visible = false
+
+func _activate_plates_panel():
+	await  get_tree().process_frame
+	# Initial sind die Platten angewählt
+	find_child("Plates").activate(self)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c1u4bsknam34t"]
+[gd_scene load_steps=27 format=3 uid="uid://c1u4bsknam34t"]
 
 [ext_resource type="Script" path="res://main_scene.gd" id="1_6wwel"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_83ax7"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://2sh08npnemj4" path="res://textures/Menu/Bodenplatte.png" id="14_8meh5"]
 [ext_resource type="StyleBox" uid="uid://b16f10hedpu6w" path="res://styles/tile_selection_button_pressed.tres" id="14_w8sjo"]
 [ext_resource type="StyleBox" uid="uid://03htgbhvnkci" path="res://styles/tile_selection_button_focus.tres" id="15_p5ox7"]
+[ext_resource type="Texture2D" uid="uid://3k20l6xm6ko1" path="res://textures/Menu/Connector.png" id="19_ab8g3"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ft0it"]
 size = Vector3(200, 1, 200)
@@ -137,6 +138,7 @@ script = ExtResource("9_glc3s")
 [node name="Delete" type="Button" parent="Control/BackgroundPanel/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+disabled = true
 text = "Löschen
 "
 
@@ -210,25 +212,52 @@ offset_left = 198.0
 offset_top = 8.0
 offset_right = 451.0
 offset_bottom = 268.0
-theme_override_constants/separation = 12
+theme_override_constants/separation = 11
 
-[node name="TextureRoof" type="TextureRect" parent="Control/PlateContainer"]
+[node name="ButtonRoof" type="Button" parent="Control/PlateContainer"]
 custom_minimum_size = Vector2(128, 80)
 layout_mode = 2
-texture = ExtResource("12_eowu6")
-expand_mode = 1
-stretch_mode = 4
+theme_override_colors/icon_hover_color = Color(0.843137, 0.843137, 0.843137, 0.945098)
+theme_override_styles/pressed = ExtResource("14_w8sjo")
+theme_override_styles/focus = ExtResource("15_p5ox7")
+icon = ExtResource("12_eowu6")
+flat = true
+icon_alignment = 1
+expand_icon = true
+metadata/obj_bind = "res://objects/Wand_Ohne_Fenster.obj"
 
-[node name="TextureIntermediate" type="TextureRect" parent="Control/PlateContainer"]
+[node name="ButtonIntermediate" type="Button" parent="Control/PlateContainer"]
 custom_minimum_size = Vector2(128, 80)
 layout_mode = 2
-texture = ExtResource("13_e1iwj")
-expand_mode = 1
-stretch_mode = 4
+theme_override_colors/icon_hover_color = Color(0.843137, 0.843137, 0.843137, 0.945098)
+theme_override_styles/pressed = ExtResource("14_w8sjo")
+theme_override_styles/focus = ExtResource("15_p5ox7")
+icon = ExtResource("13_e1iwj")
+flat = true
+expand_icon = true
+metadata/obj_bind = "res://objects/Wand_Ohne_Fenster.obj"
 
-[node name="TextureBaseplate" type="TextureRect" parent="Control/PlateContainer"]
+[node name="ButtonBottom" type="Button" parent="Control/PlateContainer"]
 custom_minimum_size = Vector2(128, 80)
 layout_mode = 2
-texture = ExtResource("14_8meh5")
+theme_override_colors/icon_hover_color = Color(0.843137, 0.843137, 0.843137, 0.945098)
+theme_override_styles/pressed = ExtResource("14_w8sjo")
+theme_override_styles/focus = ExtResource("15_p5ox7")
+icon = ExtResource("14_8meh5")
+flat = true
+expand_icon = true
+metadata/obj_bind = "res://objects/Wand_Ohne_Fenster.obj"
+
+[node name="ConnectorContainer" type="AspectRatioContainer" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 199.0
+offset_top = 8.0
+offset_right = 453.0
+offset_bottom = 269.0
+
+[node name="ConnectorImage" type="TextureRect" parent="Control/ConnectorContainer"]
+layout_mode = 2
+texture = ExtResource("19_ab8g3")
 expand_mode = 1
-stretch_mode = 4
+stretch_mode = 5

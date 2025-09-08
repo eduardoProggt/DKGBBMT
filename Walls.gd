@@ -12,8 +12,9 @@ func activate(controlPanel : Control):
 	Manager.set_current_ghost_tile(Manager.WAND)
 	
 	if !last_pressed_button:
+		# Initial: Wand ohne Fenster
 		last_pressed_button = container.get_child(0)
-	last_pressed_button.set_pressed(true) 
+	last_pressed_button.grab_focus()
 
 func _button_pressed(button : Button):
 	var obj_url : String = button.get_meta("obj_bind")
