@@ -44,11 +44,15 @@ func handle_button_up():
 	tile_indicator.finish_spawning()
 	
 func rotate_90_degrees():
+	if tile_indicator is Connector:
+		return # Scheiß Godot fücking man kann die Methode nicht überschreiben alles muss man mit if machen :(
 	tile_indicator.rotate_y(PI / 2)
+	enable_disable_hitboxes()
 		
 func switch_indicator(indicator: Node3D):
 	ensure_is_a_placable(indicator)
-	enable_disable_hitboxes(indicator)
+#	if tile_indicator:
+#		enable_disable_hitboxes(indicator)
 
 	if tile_indicator:  # Falls vorher ein Indicator existierte, altes Signal trennen
 		var old_area = tile_indicator.find_child("Area3D")
@@ -68,25 +72,41 @@ func switch_indicator(indicator: Node3D):
 		area.area_exited.connect(_on_body_exited)
 	collisions = 0
 	
-func enable_disable_hitboxes(node : Node3D):
-	for i in Manager.ghost_groups:
-		if node is Placable_Node3D:
-			var is_chosen_group = i == node._group_name
-			set_group_collision(i, is_chosen_group)
-
+	enable_disable_hitboxes()
+	
+func enable_disable_hitboxes():#node : Node3D):
+	for group in Manager.ghost_groups:
+		if tile_indicator is Placable_Node3D:
+			if group == tile_indicator._group_name:
+				enable_group_collision(group)
+			else :
+				disable_group_collision(group)
 		else:
-			set_group_collision(i, false)
+			disable_group_collision(group)
 
-func set_group_collision(group_name: String, enabled: bool):
+func disable_group_collision(group_name: String):
 	var nodes_in_group = get_tree().get_nodes_in_group(group_name)
 	for obj in nodes_in_group:
-		
-		if obj is StaticBody3D:
-			for child in obj.get_children():
-				child.disabled = !enabled
-				if enabled:
-					check_if_still_valid(child)
-					
+		_set_enabled_children(obj, false)
+			
+func enable_group_collision(group_name: String):
+	
+	var nodes_in_group = get_tree().get_nodes_in_group(group_name)
+	
+	var tile_indicator_rotated = abs(abs(tile_indicator.global_rotation.y) - PI/2) > 1
+
+	for obj in nodes_in_group:
+		#Also alle die nicht entsprechend des Indikators rotiert sind fallen raus
+		var rotation_fitts = tile_indicator_rotated != obj.is_in_group("ROTATED") || tile_indicator is Connector
+		_set_enabled_children(obj, rotation_fitts)
+
+func _set_enabled_children(obj, enabled):
+	if obj is StaticBody3D:
+		for child in obj.get_children():
+			child.disabled = !enabled
+			if enabled:
+				check_if_still_valid(child)
+				
 func check_if_still_valid(child : CollisionShape3D):
 	_delete_shape_if_colliding(child)
 
@@ -105,12 +125,19 @@ func _delete_shape_if_colliding(collision_shape):
 	
 	# Da immer nur 32 gehen: So lange intersections abräumen, bis keine mehr da sind
 	var results = space_state.intersect_shape(query, 1)
-	if results.is_empty():
+	if results.is_empty() || collides_with_indicator(results):
 		return
 	collision_shape.disabled = true
 	collision_shape.queue_free()
 
-
+func collides_with_indicator(results : Array):
+	# Bei Kollision mit dem Indikator soll der Ghost natürlich nicht verschwinden
+	if results.size() == 1:
+		var area3D : Area3D = results[0].collider 
+		var parent = area3D.get_parent_node_3d()
+		return parent == tile_indicator
+	return false
+	
 ## Workaround für ein Placable-Interface an den Asset - Objekten
 func ensure_is_a_placable(node: Node3D):
 	var required = ["spawn", "display", "finish_spawning"]

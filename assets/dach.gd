@@ -71,6 +71,8 @@ func _add_ghost_to_scene(pos, connector_center, rotation_y):
 	
 	body.add_child(newCollisionBox)
 	body.add_to_group(GHOST_GROUP)
+	if rotation_y > 0.01: # z gleich; der x-achse nach ausgerichtet
+		body.add_to_group("ROTATED")
 	
 
 # TODO: Ab in die Oberklasse

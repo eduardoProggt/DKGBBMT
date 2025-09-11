@@ -69,6 +69,7 @@ func _collides_with_already_placed_objects(box) -> bool:
 	return !res.is_empty()
 	
 func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
+	
 	var body = StaticBody3D.new()
 	get_tree().current_scene.add_child(body)
 	# Mesh positionieren
@@ -91,5 +92,7 @@ func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 	
 	body.add_child(collision_shape)
 	body.add_to_group(GHOST_GROUP)
+	if abs(start.x - end.x) < 0.01: # x gleich; der z-achse nach ausgerichtet
+		body.add_to_group("ROTATED")
 	
 	return body

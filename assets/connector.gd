@@ -91,6 +91,7 @@ func _post_instantiation():
 
 func _spawn_concrete_ghosts(new_connector):
 	for connectable in Manager.get_connectables():
+		#TODO: Ich hätte am liebsten ne Logik die sicherstellt, dass Connrcables auch diese Funktion implmentieren
 		connectable.instance.spawn_gost(new_connector)
 		
 func get_center() -> Vector3:
