@@ -8,13 +8,9 @@ func _init():
 	super(GHOST_GROUP)
 
 func _snap_to_ghost(collision_shape : CollisionShape3D):
-	
-	if collision_shape.get_parent().rotation.y != 0:
-		transform.origin = collision_shape.global_transform.origin + Vector3(3,-3,0.5);
-		rotation.y = 0
-	else:
-		transform.origin = collision_shape.global_transform.origin + Vector3(-0.5,-3,3);
-		rotation.y = PI / 2 + PI
+	# Gefunden durch h̶̶e̶̶r̶̶u̶̶m̶̶p̶̶r̶̶o̶̶b̶̶i̶̶e̶̶r̶̶e̶̶n̶ Mathematik:
+	var offset = Vector3(3 * cos(rotation.y) + 0.5 * sin(rotation.y),-3 ,3 * -sin(rotation.y) + 0.5*cos(rotation.y));
+	transform.origin = collision_shape.global_transform.origin + offset
 
 func finish_spawning():
 	pass
@@ -84,7 +80,7 @@ func create_box_between_points(start: Vector3, end: Vector3) -> Node3D:
 	var collision_shape = CollisionShape3D.new()
 	var shape = BoxShape3D.new()
 	shape.size = Vector3(1, 6, start.distance_to(end) + 1)
-
+	
 	collision_shape.shape = shape
 	collision_shape.disabled = true # Wird erst enabled, wenn Wall angewählt wird
 	
