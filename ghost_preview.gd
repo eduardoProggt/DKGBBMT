@@ -5,9 +5,10 @@ const Utils = preload("res://Utils.gd")
 
 var tile_indicator : Node3D
 var collisions = 0
+var spawn_possible = true
 
 func _on_body_entered(_a):
-	Utils.set_color(tile_indicator, Color(1, 0, 0))
+	_color_accordingly(false)
 	collisions+=1
 	
 func _on_body_exited(_a):
@@ -16,13 +17,23 @@ func _on_body_exited(_a):
 		return #es bleibt rot.
 	if collisions < 0:
 		collisions = 0
-	Utils.set_color(tile_indicator,Color(1, 1, 1))
+	_color_accordingly(true)
+
+func _color_accordingly(spawn_allowed : bool):
+	if spawn_allowed:
+		Utils.set_color(tile_indicator,Color(1, 1, 1)) 
+	else: 
+		Utils.set_color(tile_indicator, Color(1, 0, 0))
 
 func display(result):
 	if !result:
 		#Intersected mit gar nichts	
 		tile_indicator.visible = false
 		return
+		
+	spawn_possible = result.collider.name != "GroundCollision" or tile_indicator is Bodenplatte
+	_color_accordingly(spawn_possible)
+
 	tile_indicator.transform.origin = discretize_hit_position(result.position)	
 	tile_indicator.display(result)	
 	
@@ -145,7 +156,7 @@ func ensure_is_a_placable(node: Node3D):
 		assert(node.has_method(method), "Node is missing method: %s" % method)
 
 func can_spawn():
-	return collisions == 0
+	return collisions == 0 and spawn_possible
 	
 func change_mesh(another_mesh : Mesh):
 	var mesh_inst : MeshInstance3D = tile_indicator.find_child("MeshInstance3D")

@@ -24,7 +24,7 @@ func _compute_mouse_intersection() -> Dictionary:
 
 	var query = PhysicsRayQueryParameters3D.create(from, to)
 	query.collide_with_areas = _is_delete_mode()
-	#Kollision mit dem StaticBody des Ghjosts ausschließen
+	#Kollision mit dem StaticBody des Ghosts ausschließen
 	query.exclude = [get_ghost_preview_node().tile_indicator.find_child("StaticBody3D")]
 	return  space_state.intersect_ray(query)
 	

@@ -24,6 +24,7 @@ func _add_asset(asset : Asset, add_node : Callable):
 	var instance = asset.instance
 	add_node.call(instance)
 	if(instance is Placable_Node3D):
+		Utils.set_color(instance, Color(1, 1, 1))
 		ghost_groups.append(instance._group_name)
 	
 func register(node):
