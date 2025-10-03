@@ -69,6 +69,12 @@ script = ExtResource("2_83ax7")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.195862, 0.980178, 0.029809, -0.328771, -0.0942735, 0.939693, 0.923877, 0.174249, 0.340719, 0.325562, 26.2814, -27.5894)
 
+[node name="DirectionalLight3DWeak" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.458888, -0.423455, -0.781094, -0.853654, 0.453896, 0.255446, 0.246366, 0.784005, -0.569772, 0.325562, 26.2814, -19.236)
+light_energy = 0.124
+light_indirect_energy = 0.262
+light_volumetric_fog_energy = 0.401
+
 [node name="FlatGround" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 
