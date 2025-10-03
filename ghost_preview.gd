@@ -32,7 +32,7 @@ func display(result):
 		return
 		
 	spawn_possible = result.collider.name != "GroundCollision" or tile_indicator is Bodenplatte
-	_color_accordingly(spawn_possible)
+	_color_accordingly(can_spawn())
 
 	tile_indicator.transform.origin = discretize_hit_position(result.position)	
 	tile_indicator.display(result)	
